@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     checkout scm
-                    env.GIT_COMMIT_SHORT = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
+                    env.GIT_COMMIT_SHORT = env.GIT_COMMIT.take(8)
                     echo "✓ Repository checked out (commit: ${env.GIT_COMMIT_SHORT})"
                 }
             }
