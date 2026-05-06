@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Installing system and Python dependencies..."
-                    apt-get update && apt-get install -y gcc git curl wget
+                    apt-get update && apt-get install -y gcc git curl wget docker.io
                     python3 -m pip install --upgrade pip
                     pip3 install -r app/requirements.txt
                     pip3 install -r tests/requirements-test.txt
