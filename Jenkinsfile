@@ -79,6 +79,13 @@ pipeline {
             steps {
                 sh '''
                     echo "Retrieving Docker Hub credentials from Vault..."
+                    # Diagnostics
+                    which vault || find / -name vault || echo "Vault not found"
+                    chmod +x /usr/bin/vault || true
+                    
+                    # Connection check
+                    curl -s -f ${VAULT_ADDR}/v1/sys/health || echo "WARNING: Cannot reach Vault at ${VAULT_ADDR}"
+                    
                     export DOCKER_USER=$(vault kv get -field=username secret/dockerhub)
                     export DOCKER_PASS=$(vault kv get -field=password secret/dockerhub)
                     
