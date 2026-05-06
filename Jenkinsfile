@@ -65,34 +65,30 @@ pipeline {
 
         stage('Docker Push') {
             steps {
-                withVault([
-                    string(credentialsId: 'docker-username', variable: 'DOCKER_USER'),
-                    string(credentialsId: 'docker-password', variable: 'DOCKER_PASS')
-                ]) {
-                    sh '''
-                        # echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        # docker push 28vishesh/fraudguard:latest
-                        # docker push 28vishesh/fraudguard:${GIT_COMMIT_SHORT}
-                        # docker logout
-                        echo "✓ Docker Push completed (simulated for local Minikube)"
-                    '''
-                }
+                sh '''
+                    echo "Retrieving Docker Hub credentials from Vault (simulated)..."
+                    # export DOCKER_USER=$(vault kv get -field=username secret/dockerhub)
+                    # export DOCKER_PASS=$(vault kv get -field=password secret/dockerhub)
+                    # echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    # docker push 28vishesh/fraudguard:latest
+                    # docker push 28vishesh/fraudguard:${GIT_COMMIT_SHORT}
+                    # docker logout
+                    echo "✓ Docker Push completed (simulated for local Minikube)"
+                '''
             }
         }
 
         stage('Ansible Provision') {
             steps {
-                withVault([
-                    string(credentialsId: 'ansible-ssh-key', variable: 'SSH_KEY')
-                ]) {
-                    sh '''
-                        echo "✓ Ansible Provision completed (Minikube already active)"
-                        # ansible-playbook \\
-                        #   -i ansible/inventory/hosts.ini \\
-                        #   -e "minikube_start=true" \\
-                        #   ansible/site.yml
-                    '''
-                }
+                sh '''
+                    echo "Retrieving SSH key from Vault (simulated)..."
+                    # export SSH_KEY=$(vault kv get -field=ssh_private_key secret/ansible)
+                    echo "✓ Ansible Provision completed (Minikube already active)"
+                    # ansible-playbook \\
+                    #   -i ansible/inventory/hosts.ini \\
+                    #   -e "minikube_start=true" \\
+                    #   ansible/site.yml
+                '''
             }
         }
 
