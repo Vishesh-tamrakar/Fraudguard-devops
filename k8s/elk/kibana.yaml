@@ -1,0 +1,117 @@
+---
+# Kibana Deployment for FraudGuard ELK Stack
+# Log visualization and dashboard UI
+# Version: 8.13.0 (from SRS §7.4)
+# Access: http://<minikube-ip>:30601
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: elk
+  labels:
+    app: kibana
+    component: visualization
+
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: kibana
+  
+  template:
+    metadata:
+      labels:
+        app: kibana
+        component: visualization
+    
+    spec:
+      containers:
+        - name: kibana
+          image: docker.elastic.co/kibana/kibana:8.13.0
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - name: http
+              containerPort: 5601
+              protocol: TCP
+          
+          env:
+            - name: ELASTICSEARCH_HOSTS
+              value: "http://elasticsearch.elk.svc.cluster.local:9200"
+            - name: SERVER_NAME
+              value: "kibana"
+            - name: XPACK_SECURITY_ENABLED
+              value: "false"
+          
+          # Readiness probe
+          readinessProbe:
+            httpGet:
+              path: /api/status
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          # Liveness probe
+          livenessProbe:
+            httpGet:
+              path: /api/status
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          # Resource requests
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: elk
+  labels:
+    app: kibana
+
+spec:
+  type: NodePort
+  
+  selector:
+    app: kibana
+  
+  ports:
+    - name: http
+      port: 5601
+      targetPort: 5601
+      nodePort: 30601                # External NodePort for Kibana
+
+---
+# Access Kibana:
+# - Minikube: minikube service kibana -n elk --url
+# - Direct: http://<minikube-ip>:30601
+# - Port-forward: kubectl port-forward -n elk svc/kibana 5601:5601
+#
+# Initial login:
+# - Username: elastic
+# - Password: changeme
+#
+# Create Index Pattern:
+# 1. Navigate to Stack Management > Index Patterns
+# 2. Create pattern: "fraudguard-logs-*"
+# 3. Timestamp field: @timestamp
+# 4. Create index pattern
+#
+# View Logs:
+# 1. Go to Discover
+# 2. Select "fraudguard-logs-*" index
+# 3. View parsed logs and metrics

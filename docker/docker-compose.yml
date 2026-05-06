@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      LOG_LEVEL: INFO
+    volumes:
+      - app_logs:/var/log/app
+
+volumes:
+  app_logs:

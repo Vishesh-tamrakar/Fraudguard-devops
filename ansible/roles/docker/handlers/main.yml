@@ -1,0 +1,12 @@
+---
+# Docker role handlers
+# Handlers for notifying and restarting services
+
+- name: Restart Docker
+  systemd:
+    name: docker
+    state: restarted
+    daemon_reload: yes
+
+- name: Reset SSH connection
+  meta: reset_connection

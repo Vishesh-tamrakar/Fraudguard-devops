@@ -1,0 +1,75 @@
+---
+# Horizontal Pod Autoscaler for FraudGuard Application
+# Automatically scales replicas based on CPU utilization
+# Requirements (SRS §7.3): minReplicas=2, maxReplicas=6, CPU target=70%
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fraudguard-app-hpa
+  namespace: default
+  labels:
+    app: fraudguard
+    component: scaling
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fraudguard-app
+  
+  # Replica range
+  minReplicas: 2                    # Minimum pods (default deployment replicas)
+  maxReplicas: 6                    # Maximum pods (scale cap)
+  
+  # Scaling metrics
+  metrics:
+    # CPU-based scaling (primary metric)
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70    # Target 70% CPU utilization
+    
+    # Memory-based scaling (secondary metric)
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80    # Target 80% memory utilization
+  
+  # Scaling behavior (optional, advanced)
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Percent
+          value: 50                 # Scale up 50% at a time
+          periodSeconds: 60
+        - type: Pods
+          value: 1                  # Or 1 pod at a time
+          periodSeconds: 60
+      selectPolicy: Max             # Use the larger increase
+    
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 50                 # Scale down 50% at a time
+          periodSeconds: 60
+      selectPolicy: Min             # Use the smaller decrease
+
+---
+# NOTE: Requires metrics-server addon installed:
+# minikube addons enable metrics-server
+# 
+# Verify metrics available:
+# kubectl get --raw /apis/metrics.k8s.io/v1beta1/nodes
+# kubectl top nodes
+# kubectl top pods
+#
+# Monitor HPA status:
+# kubectl get hpa fraudguard-app-hpa --watch
+# kubectl describe hpa fraudguard-app-hpa

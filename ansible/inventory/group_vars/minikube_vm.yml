@@ -1,0 +1,69 @@
+# Group variables for Minikube VM
+# These variables apply to all hosts in the minikube_vm group
+
+---
+# System packages to install
+system_packages:
+  - curl
+  - wget
+  - git
+  - vim
+  - net-tools
+  - build-essential
+  - apt-transport-https
+  - ca-certificates
+  - gnupg
+  - lsb-release
+
+# System configuration
+timezone: UTC
+locale: en_US.UTF-8
+
+# Docker configuration
+docker_version: "29.4.2"
+docker_apt_repo_url: "https://download.docker.com/linux/ubuntu"
+docker_gpg_key_url: "https://download.docker.com/linux/ubuntu/gpg"
+
+# Kubernetes configuration
+kubectl_version: "v1.29.15"
+minikube_version: "v1.32.0"
+minikube_driver: "docker"
+minikube_memory: "9g"
+minikube_cpus: "4"
+
+# Application configuration
+app_namespace: default
+app_replicas: 2
+app_port: 8000
+app_healthcheck_interval: 10
+app_healthcheck_timeout: 5
+
+# ELK stack configuration
+elk_namespace: elk
+elasticsearch_replicas: 1
+elasticsearch_memory: 512m
+elasticsearch_heap_size: 256m
+kibana_port: 5601
+logstash_port: 5000
+
+# Logging configuration
+log_level: INFO
+log_retention_days: 7
+
+# Security
+enable_firewall: false  # Disabled for dev/test; enable in production
+firewall_allowed_ports:
+  - "22"
+  - "80"
+  - "443"
+  - "8000"
+  - "8080"
+  - "30080"
+  - "30601"
+  - "9200"
+  - "5601"
+
+# Feature flags
+install_vault: true
+install_jenkins: true
+install_monitoring: true

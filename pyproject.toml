@@ -1,0 +1,10 @@
+[tool.pytest.ini_options]
+# FR-119: pytest configuration with coverage reporting
+addopts = "--cov=app --cov-report=term-missing --cov-fail-under=70"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+omit = ["app/train.py", "app/logging_config.py", "app/train_dummy_model.py"]

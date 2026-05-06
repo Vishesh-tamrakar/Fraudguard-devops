@@ -1,0 +1,9 @@
+---
+# Common role handlers
+# Handlers for system services and configuration changes
+
+- name: Restart systemd-timesyncd
+  systemd:
+    name: systemd-timesyncd
+    state: restarted
+    enabled: yes

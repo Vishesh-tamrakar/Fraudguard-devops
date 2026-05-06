@@ -1,0 +1,94 @@
+---
+# Common role tasks
+# Performs baseline system configuration for all servers
+# Covers package management, timezone, locale, and security settings
+
+- name: Update apt package cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+  tags:
+    - common
+    - packages
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+    autoremove: yes
+    autoclean: yes
+  become: yes
+  tags:
+    - common
+    - packages
+
+- name: Install required system packages
+  apt:
+    name: "{{ system_packages }}"
+    state: present
+  become: yes
+  tags:
+    - common
+    - packages
+
+- name: Set system timezone using timedatectl
+  command: timedatectl set-timezone "{{ timezone }}"
+  become: yes
+  changed_when: false
+  failed_when: false
+  tags:
+    - common
+    - timezone
+
+- name: Generate and set system locale
+  shell: locale-gen "{{ locale }}"
+  become: yes
+  changed_when: false
+  failed_when: false
+  tags:
+    - common
+    - locale
+
+- name: Disable UFW firewall (development environment)
+  shell: ufw disable 2>/dev/null || true
+  become: yes
+  changed_when: false
+  tags:
+    - common
+    - firewall
+
+- name: Create /var/log/app directory for application logs
+  file:
+    path: /var/log/app
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+  tags:
+    - common
+    - logging
+
+- name: Create /opt/fraudguard directory for application files
+  file:
+    path: /opt/fraudguard
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+  tags:
+    - common
+    - app
+
+- name: Create /data directory for datasets
+  file:
+    path: /data
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+  tags:
+    - common
+    - data

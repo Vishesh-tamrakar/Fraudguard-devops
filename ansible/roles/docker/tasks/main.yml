@@ -1,0 +1,157 @@
+---
+# Docker role tasks
+# Installs Docker Engine, Docker CLI, and Docker Compose
+# Configures Docker daemon and sets up non-root access
+
+- name: Ensure /etc/apt/keyrings exists
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+  become: yes
+  tags:
+    - docker
+    - packages
+
+- name: Install Docker GPG key into keyring (dearmored)
+  shell: |
+    set -euo pipefail
+    tmp=/etc/apt/keyrings/docker.gpg.tmp
+    curl -fsSL "{{ docker_gpg_key_url }}" | gpg --dearmor > "$tmp"
+    install -m 0644 "$tmp" /etc/apt/keyrings/docker.gpg
+    rm -f "$tmp"
+  args:
+    executable: /bin/bash
+  become: yes
+  changed_when: false
+  tags:
+    - docker
+    - packages
+
+- name: Remove legacy Docker apt source entry
+  file:
+    path: /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
+    state: absent
+  become: yes
+  tags:
+    - docker
+    - packages
+
+- name: Remove stale Docker apt source entry
+  file:
+    path: /etc/apt/sources.list.d/docker.list
+    state: absent
+  become: yes
+  tags:
+    - docker
+    - packages
+
+- name: Add Docker apt repository
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] {{ docker_apt_repo_url }} {{ ansible_distribution_release }} stable"
+    state: present
+    update_cache: no
+  become: yes
+  tags:
+    - docker
+    - packages
+
+- name: Update apt cache after adding Docker repo
+  apt:
+    update_cache: yes
+  become: yes
+  tags:
+    - docker
+    - packages
+
+- name: Install Docker Engine and CLI
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: present
+  become: yes
+  tags:
+    - docker
+    - packages
+
+- name: Ensure Docker service is started and enabled
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  tags:
+    - docker
+    - service
+
+- name: Add current user to docker group
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: yes
+  become: yes
+  when: ansible_user_id != "root"
+  tags:
+    - docker
+    - users
+
+- name: Create Docker daemon configuration directory
+  file:
+    path: /etc/docker
+    state: directory
+    mode: '0755'
+  become: yes
+  tags:
+    - docker
+    - config
+
+- name: Configure Docker daemon for log rotation
+  copy:
+    content: |
+      {
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "10m",
+          "max-file": "3"
+        },
+        "storage-driver": "overlay2"
+      }
+    dest: /etc/docker/daemon.json
+    mode: '0644'
+  become: yes
+  notify: Restart Docker
+  tags:
+    - docker
+    - config
+
+- name: Verify Docker installation
+  shell: docker --version
+  register: docker_version_output
+  changed_when: false
+  tags:
+    - docker
+    - verify
+
+- name: Verify Docker daemon is running
+  shell: docker ps
+  register: docker_ps_output
+  changed_when: false
+  tags:
+    - docker
+    - verify
+
+- name: Display Docker information
+  debug:
+    msg: |
+      Docker Installation Complete
+      =============================
+      {{ docker_version_output.stdout }}
+      Docker daemon: {{ 'running' if docker_ps_output.rc == 0 else 'not running' }}
+      Docker user group: docker
+  tags:
+    - docker
+    - debug

@@ -1,0 +1,11 @@
+data/
+tests/
+__pycache__/
+*.pyc
+venv/
+.git/
+k8s/
+ansible/
+kibana/
+.pytest_cache/
+test-results.xml

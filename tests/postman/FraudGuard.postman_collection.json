@@ -1,0 +1,222 @@
+{
+  "info": {
+    "_postman_id": "fraudguard-collection-v1",
+    "name": "FraudGuard API",
+    "description": "FraudGuard Fraud Detection API Test Collection\nSRS §9: Smoke tests for end-to-end validation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test: Verify health endpoint returns healthy status",
+              "pm.test('Health check status 200', function() {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Health response has required fields', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('status');",
+              "    pm.expect(jsonData).to.have.property('model_loaded');",
+              "});",
+              "",
+              "pm.test('Model is loaded', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.equal('healthy');",
+              "    pm.expect(jsonData.model_loaded).to.equal(true);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": "{{base_url}}/health"
+      }
+    },
+    {
+      "name": "Predict - Fraudulent Transaction",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test: Verify fraudulent transaction detection",
+              "pm.test('Prediction endpoint status 200', function() {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response has required fields', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('transaction_id');",
+              "    pm.expect(jsonData).to.have.property('prediction');",
+              "    pm.expect(jsonData).to.have.property('label');",
+              "    pm.expect(jsonData).to.have.property('confidence_score');",
+              "    pm.expect(jsonData).to.have.property('timestamp');",
+              "});",
+              "",
+              "pm.test('Prediction and label are valid', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect([0, 1]).to.include(jsonData.prediction);",
+              "    pm.expect(['legitimate', 'fraudulent']).to.include(jsonData.label);",
+              "    if (jsonData.prediction === 1) {",
+              "        pm.expect(jsonData.label).to.equal('fraudulent');",
+              "    } else {",
+              "        pm.expect(jsonData.label).to.equal('legitimate');",
+              "    }",
+              "});",
+              "",
+              "pm.test('Confidence score is between 0 and 1', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.confidence_score).to.be.above(0);",
+              "    pm.expect(jsonData.confidence_score).to.be.below(1);",
+              "});",
+              "",
+              "pm.test('Transaction ID is UUID format', function() {",
+              "    const jsonData = pm.response.json();",
+              "    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;",
+              "    pm.expect(jsonData.transaction_id).to.match(uuidRegex);",
+              "});",
+              "",
+              "pm.test('Timestamp is ISO 8601 format', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"TransactionAmt\": 450.50,\n  \"TransactionDT\": 1234567890,\n  \"ProductCD\": \"S\",\n  \"card1\": 13926,\n  \"card2\": 520,\n  \"card3\": 150,\n  \"card4\": \"debit\",\n  \"card5\": 166,\n  \"card6\": \"credit\",\n  \"addr1\": 325,\n  \"addr2\": 87,\n  \"dist1\": 10.5,\n  \"dist2\": 15.3,\n  \"email\": \"test@example.com\",\n  \"C1\": 10,\n  \"C2\": 5,\n  \"C3\": 2,\n  \"C4\": 1,\n  \"C5\": 0,\n  \"C6\": 0,\n  \"C7\": 0,\n  \"C8\": 0,\n  \"C9\": 0,\n  \"C10\": 0,\n  \"C11\": 0,\n  \"C12\": 0,\n  \"C13\": 0,\n  \"C14\": 0,\n  \"V1\": 0.5,\n  \"V2\": -0.3,\n  \"V3\": 1.2,\n  \"V4\": -0.8,\n  \"V5\": 0.2,\n  \"V12\": -1.5,\n  \"V13\": 0.8,\n  \"V14\": -0.4,\n  \"V36\": 0.1,\n  \"V37\": -0.2,\n  \"V38\": 0.6,\n  \"V54\": -0.5,\n  \"V55\": 0.3,\n  \"V56\": -0.1,\n  \"V75\": 0.9,\n  \"V76\": -0.7,\n  \"V77\": 0.4,\n  \"V78\": -0.2,\n  \"V282\": 1.0,\n  \"V283\": -1.0\n}"
+        },
+        "url": "{{base_url}}/predict"
+      }
+    },
+    {
+      "name": "Predict - Legitimate Transaction",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test: Verify legitimate transaction detection",
+              "pm.test('Prediction endpoint status 200', function() {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Prediction and label are valid', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect([0, 1]).to.include(jsonData.prediction);",
+              "    pm.expect(['legitimate', 'fraudulent']).to.include(jsonData.label);",
+              "    if (jsonData.prediction === 1) {",
+              "        pm.expect(jsonData.label).to.equal('fraudulent');",
+              "    } else {",
+              "        pm.expect(jsonData.label).to.equal('legitimate');",
+              "    }",
+              "});",
+              "",
+              "pm.test('Confidence score is between 0 and 1', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.confidence_score).to.be.above(0);",
+              "    pm.expect(jsonData.confidence_score).to.be.below(1);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"TransactionAmt\": 50.00,\n  \"TransactionDT\": 1234567890,\n  \"ProductCD\": \"W\",\n  \"card1\": 4807,\n  \"card2\": 452,\n  \"card3\": 150,\n  \"card4\": \"debit\",\n  \"card5\": 166,\n  \"card6\": \"debit\",\n  \"addr1\": 330,\n  \"addr2\": 100,\n  \"dist1\": 5.2,\n  \"dist2\": 8.1,\n  \"email\": \"legitimate@example.com\",\n  \"C1\": 100,\n  \"C2\": 50,\n  \"C3\": 25,\n  \"C4\": 10,\n  \"C5\": 5,\n  \"C6\": 2,\n  \"C7\": 1,\n  \"C8\": 0,\n  \"C9\": 0,\n  \"C10\": 0,\n  \"C11\": 0,\n  \"C12\": 0,\n  \"C13\": 0,\n  \"C14\": 0,\n  \"V1\": 0.8,\n  \"V2\": -0.1,\n  \"V3\": 0.6,\n  \"V4\": -0.2,\n  \"V5\": 0.4,\n  \"V12\": -0.3,\n  \"V13\": 0.5,\n  \"V14\": -0.1,\n  \"V36\": 0.2,\n  \"V37\": -0.1,\n  \"V38\": 0.3,\n  \"V54\": -0.2,\n  \"V55\": 0.1,\n  \"V56\": -0.05,\n  \"V75\": 0.4,\n  \"V76\": -0.3,\n  \"V77\": 0.2,\n  \"V78\": -0.1,\n  \"V282\": 0.5,\n  \"V283\": -0.5\n}"
+        },
+        "url": "{{base_url}}/predict"
+      }
+    },
+    {
+      "name": "Predict - Invalid Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test: Verify validation error handling",
+              "pm.test('Invalid payload returns 422 error', function() {",
+              "    pm.response.to.have.status(422);",
+              "});",
+              "",
+              "pm.test('Error response has proper format', function() {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('detail');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": "{{base_url}}/predict"
+      }
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script: Set up collection variables if needed",
+          "if (!pm.environment.get('base_url')) {",
+          "    pm.environment.set('base_url', 'http://localhost:8000');",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ]
+}

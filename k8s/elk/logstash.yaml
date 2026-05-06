@@ -1,0 +1,198 @@
+---
+# Logstash Deployment for FraudGuard ELK Stack
+# Log processing and pipeline engine
+# Version: 8.13.0 (from SRS §7.4)
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-config
+  namespace: elk
+
+data:
+  logstash.yml: |
+    # Logstash configuration
+    node.name: logstash-node-1
+    path.logs: /usr/share/logstash/logs
+    api.http.host: "0.0.0.0"
+    api.http.port: 9600
+    xpack.monitoring.enabled: true
+    xpack.monitoring.elasticsearch.hosts: [ "http://elasticsearch.elk.svc.cluster.local:9200" ]
+  
+  logstash.conf: |
+    # Logstash pipeline configuration
+    # Input: receives logs from Filebeat
+    # Filter: parses JSON and enriches logs
+    # Output: sends to Elasticsearch
+
+    input {
+      beats {
+        port => 5000
+        ssl => false
+      }
+    }
+
+    filter {
+      # Parse JSON logs from Filebeat
+      json {
+        source => "message"
+        target => "parsed"
+      }
+
+      # Add timestamp
+      date {
+        match => [ "timestamp", "ISO8601" ]
+        target => "@timestamp"
+      }
+
+      # Extract key fields
+      mutate {
+        add_field => { 
+          "service" => "fraudguard-api"
+          "environment" => "production"
+        }
+      }
+    }
+
+    output {
+      # Send to Elasticsearch
+      elasticsearch {
+        hosts => ["http://elasticsearch.elk.svc.cluster.local:9200"]
+        index => "fraudguard-logs-%{+YYYY.MM.dd}"
+      }
+
+      # Also print to stdout for debugging
+      stdout {
+        codec => rubydebug
+      }
+    }
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: elk
+  labels:
+    app: logstash
+    component: processing
+
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: logstash
+  
+  template:
+    metadata:
+      labels:
+        app: logstash
+        component: processing
+    
+    spec:
+      containers:
+        - name: logstash
+          image: docker.elastic.co/logstash/logstash:8.13.0
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - name: beats
+              containerPort: 5000
+              protocol: TCP
+            - name: http
+              containerPort: 9600
+              protocol: TCP
+          
+          env:
+            - name: LS_JAVA_OPTS
+              value: "-Xmx256m -Xms256m"
+            - name: ELASTICSEARCH_HOST
+              value: "elasticsearch.elk.svc.cluster.local"
+            - name: ELASTICSEARCH_PORT
+              value: "9200"
+          
+          volumeMounts:
+            - name: logstash-config
+              mountPath: /usr/share/logstash/config/logstash.yml
+              subPath: logstash.yml
+              readOnly: true
+            - name: logstash-pipeline
+              mountPath: /usr/share/logstash/pipeline
+              readOnly: true
+          
+          # Readiness probe
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          # Liveness probe
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          # Resource requests
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      
+      volumes:
+        - name: logstash-config
+          configMap:
+            name: logstash-config
+            items:
+              - key: logstash.yml
+                path: logstash.yml
+        - name: logstash-pipeline
+          configMap:
+            name: logstash-config
+            items:
+              - key: logstash.conf
+                path: logstash.conf
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+  namespace: elk
+  labels:
+    app: logstash
+
+spec:
+  type: ClusterIP
+  
+  selector:
+    app: logstash
+  
+  ports:
+    - name: beats
+      port: 5000
+      targetPort: 5000
+    - name: http
+      port: 9600
+      targetPort: 9600
+
+---
+# Filebeat sends logs to Logstash:
+# beats input on port 5000 (logstash:5000)
+#
+# Monitor Logstash logs:
+# kubectl logs -f deployment/logstash -n elk
+#
+# Check pipeline status:
+# kubectl exec -it <logstash-pod> -n elk -- curl localhost:9600/_node/pipelines

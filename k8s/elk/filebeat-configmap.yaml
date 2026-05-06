@@ -1,0 +1,111 @@
+---
+# Filebeat ConfigMap for FraudGuard Application
+# Shipped as sidecar in fraudguard-app pods
+# Collects and forwards logs to Logstash
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config
+  namespace: default
+  labels:
+    app: fraudguard
+    component: logging
+
+data:
+  filebeat.yml: |
+    # Filebeat configuration
+    filebeat.version: 8.13.0
+    
+    # Configure inputs
+    filebeat.inputs:
+      - type: log
+        enabled: true
+        paths:
+          - /var/log/app/fraud.log
+        fields:
+          service: fraudguard-api
+          environment: production
+        multiline.pattern: '^\['
+        multiline.negate: true
+        multiline.match: after
+        json.message_key: message
+        json.keys_under_root: true
+        json.add_error_key: true
+
+    # Configure output to Logstash
+    output.logstash:
+      hosts: ["logstash.elk.svc.cluster.local:5000"]
+      index: "fraudguard-%{+YYYY.MM.dd}"
+
+    # Configure logging
+    logging.level: info
+    logging.to_files: true
+    logging.files:
+      path: /var/log/filebeat
+      name: filebeat.log
+      keepfiles: 3
+      permissions: 0644
+
+---
+# FraudGuard Application ConfigMap
+# Configuration for FastAPI application
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fraudguard-config
+  namespace: default
+  labels:
+    app: fraudguard
+    component: config
+
+data:
+  # Application configuration (can be mounted as file or read by app)
+  config.yaml: |
+    # FraudGuard API Configuration
+    app:
+      name: FraudGuard
+      version: 1.0.0
+      environment: production
+    
+    api:
+      host: 0.0.0.0
+      port: 8000
+      debug: false
+      workers: 4
+    
+    logging:
+      level: INFO
+      format: json
+      output:
+        - stdout
+        - file:///var/log/app/fraud.log
+    
+    model:
+      path: /opt/fraudguard/model/model.pkl
+      cache_predictions: true
+      batch_size: 32
+    
+    security:
+      enable_cors: true
+      cors_origins:
+        - "*"
+      enable_https: false
+    
+    monitoring:
+      enable_metrics: true
+      prometheus_port: 8000
+      health_check_interval: 30
+    
+    database:
+      # For future use (audit logs, etc.)
+      enabled: false
+
+---
+# Environmental variables for Kubernetes deployment
+# (These are set in deployment.yaml env section)
+# LOG_LEVEL=INFO
+# PYTHONUNBUFFERED=1
+# ENVIRONMENT=production
+# FLASK_ENV=production

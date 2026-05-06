@@ -1,0 +1,170 @@
+---
+# FraudGuard Infrastructure Provisioning Playbook
+# Orchestrates complete infrastructure setup for FraudGuard DevOps platform
+# 
+# Execution:
+#   ansible-playbook -i ansible/inventory/hosts.ini ansible/site.yml
+#
+# Stages:
+#   1. Common: System baseline (packages, timezone, firewall)
+#   2. Docker: Container runtime (Docker Engine, Docker Compose)
+#   3. Kubernetes: Orchestration (kubectl, Minikube, addons)
+#   4. Application Deployment: Deploy FraudGuard app to Minikube
+#
+# Prerequisites:
+#   - Ansible 2.9+ installed
+#   - SSH access to target hosts
+#   - Sudo privileges on target hosts
+#   - ~10GB free disk space
+#   - ~4+ vCPU available
+
+
+- name: FraudGuard Infrastructure Provisioning
+  hosts: minikube_vm
+  gather_facts: yes
+  vars_files:
+    - ansible/inventory/group_vars/minikube_vm.yml
+  
+  pre_tasks:
+    - name: Preflight - verify sudo/become is working (you may be prompted once)
+      command: /usr/bin/true
+      become: yes
+      tags: always
+
+    - name: Remove stale Docker apt source entries
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
+        - /etc/apt/sources.list.d/docker.list
+      become: yes
+      tags: always
+
+    - name: Disable known-broken PPAs that can break apt update (obs-studio, remmina)
+      shell: |
+        set -e
+        patterns='ppa.launchpadcontent.net/obsproject/obs-studio|ppa.launchpadcontent.net/remmina-ppa-team/remmina-next'
+        mapfile -t files < <(grep -RIlE "$patterns" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || true)
+        for f in "${files[@]}"; do
+          case "$f" in
+            *.disabled) continue ;;
+          esac
+          mv -f "$f" "$f.disabled"
+        done
+      args:
+        executable: /bin/bash
+      become: yes
+      tags: always
+
+    - name: Disable Jenkins APT sources (not required for this playbook)
+      shell: |
+        set -e
+        patterns='pkg.jenkins.io'
+        mapfile -t files < <(grep -RIlE "$patterns" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || true)
+        for f in "${files[@]}"; do
+          case "$f" in
+            *.disabled) continue ;;
+          esac
+          mv -f "$f" "$f.disabled"
+        done
+      args:
+        executable: /bin/bash
+      become: yes
+      tags: always
+
+    - name: Ensure /etc/apt/keyrings exists
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+      become: yes
+      tags: always
+
+
+    - name: Display provisioning start message
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║           FraudGuard Infrastructure Provisioning              ║
+          ║                   Starting Playbook Execution                 ║
+          ╚════════════════════════════════════════════════════════════════╝
+          
+          Target: {{ inventory_hostname }}
+          
+          Stages:
+          1️⃣  Common: System baseline configuration
+          2️⃣  Docker: Container runtime setup
+          3️⃣  Kubernetes: Orchestration platform
+          4️⃣  Applications: Deploy FraudGuard
+          
+          Estimated Duration: 10-15 minutes
+          ════════════════════════════════════════════════════════════════
+      tags: always
+
+  roles:
+    - name: common
+      tags: [common, always]
+    
+    - name: docker
+      tags: [docker, always]
+    
+    - name: kubernetes
+      tags: [kubernetes, always]
+  
+  post_tasks:
+    - name: Verify cluster readiness
+      shell: kubectl get nodes
+      register: k8s_nodes
+      changed_when: false
+      tags: [always, verify]
+
+    - name: Display provisioning completion message
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║              Provisioning Complete! ✅                        ║
+          ║         FraudGuard Infrastructure Ready for Deployment        ║
+          ╚════════════════════════════════════════════════════════════════╝
+          
+          ✅ System Configuration Complete
+             - Packages updated and installed
+             - Timezone configured to {{ timezone }}
+             - System logging configured
+          
+          ✅ Docker Installation Complete
+             - Docker Engine: {{ docker_version }}
+             - Docker Compose: installed
+             - Non-root user access: configured
+          
+          ✅ Kubernetes Cluster Ready
+             - kubectl: {{ kubectl_version }}
+             - Minikube: {{ minikube_version }}
+             - Driver: {{ minikube_driver }}
+             - Memory: {{ minikube_memory }} | CPUs: {{ minikube_cpus }}
+             - Addons enabled: metrics-server, ingress
+          
+          📊 Cluster Status:
+          {{ k8s_nodes.stdout }}
+          
+          🚀 Next Steps:
+             1. Review Kubernetes manifests: k8s/*.yaml
+             2. Deploy FraudGuard application: kubectl apply -f k8s/
+             3. Monitor deployment: kubectl logs -f deployment/fraudguard-app
+             4. Access Kibana dashboard: kubectl port-forward svc/kibana 5601:5601 -n elk
+             5. Review application logs in Kibana
+          
+          📚 Documentation:
+             - README.md: Setup and deployment instructions
+             - IMPLEMENTATION_ROADMAP.md: Infrastructure implementation plan
+             - SRS_VERIFICATION_REPORT.md: Requirements alignment matrix
+          
+          🔗 Useful Commands:
+             - View cluster: kubectl cluster-info
+             - Dashboard: minikube dashboard
+             - Tunnel: minikube tunnel (for local access)
+             - SSH to Minikube: minikube ssh
+             - Delete cluster: minikube delete
+          
+          ════════════════════════════════════════════════════════════════
+      tags: [always, summary]

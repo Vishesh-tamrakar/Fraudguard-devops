@@ -1,0 +1,184 @@
+---
+# Kubernetes role tasks
+# Installs kubectl and Minikube
+# Configures Kubernetes cluster for application deployment
+
+- name: Create /usr/local/bin directory
+  file:
+    path: /usr/local/bin
+    state: directory
+    mode: '0755'
+  become: yes
+  tags:
+    - kubernetes
+    - kubectl
+
+- name: Download kubectl binary
+  get_url:
+    url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+    dest: /usr/local/bin/kubectl
+    mode: '0755'
+  become: yes
+  register: kubectl_download
+  tags:
+    - kubernetes
+    - kubectl
+
+- name: Verify kubectl installation
+  shell: kubectl version --client
+  register: kubectl_version_output
+  changed_when: false
+  tags:
+    - kubernetes
+    - kubectl
+
+- name: Create ~/.minikube directory
+  file:
+    path: "{{ ansible_env.HOME }}/.minikube"
+    state: directory
+    mode: '0755'
+  tags:
+    - kubernetes
+    - minikube
+
+- name: Download Minikube binary
+  get_url:
+    url: "https://github.com/kubernetes/minikube/releases/download/{{ minikube_version }}/minikube-linux-amd64"
+    dest: /usr/local/bin/minikube
+    mode: '0755'
+  become: yes
+  register: minikube_download
+  tags:
+    - kubernetes
+    - minikube
+
+- name: Verify Minikube installation
+  shell: minikube version
+  register: minikube_version_output
+  changed_when: false
+  tags:
+    - kubernetes
+    - minikube
+
+- name: Check if Minikube cluster already exists
+  shell: minikube status
+  register: minikube_status
+  failed_when: false
+  changed_when: false
+  tags:
+    - kubernetes
+    - minikube
+
+- name: Start Minikube cluster (may take 2-3 minutes)
+  shell: |
+    minikube start \
+      --driver={{ minikube_driver }} \
+      --memory={{ minikube_memory }} \
+      --cpus={{ minikube_cpus }} \
+      --kubernetes-version={{ kubectl_version }} \
+      --vm-driver={{ minikube_driver }}
+  when: "minikube_status.rc != 0 or 'Running' not in minikube_status.stdout"
+  register: minikube_start
+  timeout: 600
+  tags:
+    - kubernetes
+    - minikube
+
+- name: Wait for Minikube to be ready
+  shell: kubectl cluster-info
+  register: cluster_info
+  until: cluster_info.rc == 0
+  retries: 30
+  delay: 10
+  tags:
+    - kubernetes
+    - minikube
+
+- name: Enable metrics-server addon
+  shell: minikube addons enable metrics-server
+  register: metrics_server
+  changed_when: "'minikube addons enable' not in metrics_server.stderr"
+  failed_when: false
+  tags:
+    - kubernetes
+    - addons
+
+- name: Enable ingress addon
+  shell: minikube addons enable ingress
+  register: ingress_addon
+  changed_when: "'minikube addons enable' not in ingress_addon.stderr"
+  failed_when: false
+  tags:
+    - kubernetes
+    - addons
+
+- name: Verify metrics-server is deployed
+  shell: kubectl get deployment metrics-server -n kube-system
+  register: metrics_server_check
+  failed_when: false
+  changed_when: false
+  tags:
+    - kubernetes
+    - verify
+
+- name: Create Kubernetes namespaces
+  shell: |
+    kubectl create namespace {{ item }} --dry-run=client -o yaml | kubectl apply -f -
+  with_items:
+    - default
+    - elk
+    - monitoring
+  tags:
+    - kubernetes
+    - namespaces
+
+- name: Verify Kubernetes cluster status
+  shell: kubectl get nodes
+  register: k8s_nodes
+  changed_when: false
+  tags:
+    - kubernetes
+    - verify
+
+- name: Display Kubernetes cluster information
+  debug:
+    msg: |
+      Kubernetes Installation Complete
+      ==================================
+      {{ kubectl_version_output.stdout }}
+      {{ minikube_version_output.stdout }}
+      
+      Cluster Nodes:
+      {{ k8s_nodes.stdout }}
+      
+      Minikube Configuration:
+      - Driver: {{ minikube_driver }}
+      - Memory: {{ minikube_memory }}
+      - CPUs: {{ minikube_cpus }}
+      - Kubernetes Version: {{ kubectl_version }}
+  tags:
+    - kubernetes
+    - debug
+
+- name: Create kubeconfig symlink in home directory
+  file:
+    src: "{{ ansible_env.HOME }}/.kube/config"
+    dest: "{{ ansible_env.HOME }}/.kube/config.minikube"
+    state: link
+    force: yes
+  when: ansible_user_id != "root"
+  tags:
+    - kubernetes
+    - config
+
+- name: Display Minikube access information
+  debug:
+    msg: |
+      Minikube cluster is ready!
+      ===========================
+      Access via: kubectl config use-context minikube
+      Dashboard: minikube dashboard
+      Tunnel: minikube tunnel (for LoadBalancer/NodePort services)
+  tags:
+    - kubernetes
+    - info

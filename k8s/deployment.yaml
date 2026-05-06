@@ -1,0 +1,230 @@
+---
+# FraudGuard Application Deployment
+# Deploys the FastAPI fraud detection microservice to Kubernetes
+# Includes Filebeat sidecar for log shipping to ELK stack
+# Features: Health probes, resource limits, HPA support, graceful shutdown
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fraudguard-app
+  namespace: default
+  labels:
+    app: fraudguard
+    component: api
+    version: v1
+  annotations:
+    description: "FraudGuard fraud detection microservice"
+    managed-by: "ansible"
+
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  
+  selector:
+    matchLabels:
+      app: fraudguard
+      component: api
+  
+  template:
+    metadata:
+      labels:
+        app: fraudguard
+        component: api
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    
+    spec:
+      # Pod termination grace period (for graceful shutdown)
+      terminationGracePeriodSeconds: 30
+      
+      # Security context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      
+      # Service account
+      serviceAccountName: default
+      
+      # Init containers (run before app containers)
+      initContainers:
+        - name: wait-for-elk
+          image: busybox:1.35
+          command: 
+            - 'sh'
+            - '-c'
+            - 'until nc -z elasticsearch.elk.svc.cluster.local 9200 2>/dev/null; do echo waiting for elasticsearch; sleep 2; done'
+          imagePullPolicy: IfNotPresent
+      
+      # Application containers
+      containers:
+        # Main FraudGuard API container
+        - name: fraudguard-api
+          image: fraudguard:latest  # Will be pushed to Docker Hub
+          imagePullPolicy: IfNotPresent
+          
+          # Container ports
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          
+          # Environment variables
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: ENVIRONMENT
+              value: "production"
+            - name: FLASK_ENV
+              value: "production"
+          
+          # Volume mounts
+          volumeMounts:
+            - name: app-logs
+              mountPath: /var/log/app
+            - name: model-storage
+              mountPath: /opt/fraudguard/model
+            - name: app-config
+              mountPath: /opt/fraudguard/config
+              readOnly: true
+          
+          # Readiness probe (is the app ready to serve traffic?)
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+          
+          # Liveness probe (is the app still alive?)
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+          
+          # Startup probe (wait for app to start)
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 2
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 30  # 30 * 2 = 60 seconds max startup time
+          
+          # Resource requests and limits
+          resources:
+            requests:
+              cpu: 250m              # Minimum 250 millicores
+              memory: 512Mi          # Minimum 512 MiB
+            limits:
+              cpu: 500m              # Maximum 500 millicores
+              memory: 1Gi            # Maximum 1 GiB
+          
+          # Container security context
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+        
+        # Filebeat sidecar container (for log shipping)
+        - name: filebeat
+          image: docker.elastic.co/beats/filebeat:8.13.0
+          imagePullPolicy: IfNotPresent
+          
+          # Volume mounts
+          volumeMounts:
+            - name: app-logs
+              mountPath: /var/log/app
+              readOnly: true
+            - name: filebeat-data
+              mountPath: /usr/share/filebeat/data
+            - name: filebeat-logs
+              mountPath: /var/log/filebeat
+            - name: filebeat-config
+              mountPath: /usr/share/filebeat/filebeat.yml
+              subPath: filebeat.yml
+              readOnly: true
+          
+          # Environment variables for Filebeat
+          env:
+            - name: ELASTICSEARCH_HOST
+              value: "elasticsearch.elk.svc.cluster.local"
+            - name: ELASTICSEARCH_PORT
+              value: "9200"
+            - name: ELASTICSEARCH_USERNAME
+              value: "elastic"
+            - name: ELASTICSEARCH_PASSWORD
+              value: "changeme"
+          
+          # Resource requests
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 200m
+              memory: 512Mi
+          
+          # Container security context
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+      
+      # Volumes
+      volumes:
+        # Shared volume for app logs (emptyDir for testing; should be PVC in production)
+        - name: app-logs
+          emptyDir: {}
+        
+        # Model storage (emptyDir for testing; should be PVC in production)
+        - name: model-storage
+          emptyDir: {}
+        
+        # ConfigMap for app config
+        - name: app-config
+          configMap:
+            name: fraudguard-config
+            defaultMode: 0644
+        
+        # ConfigMap for Filebeat configuration
+        - name: filebeat-config
+          configMap:
+            name: filebeat-config
+            defaultMode: 0644
+
+        # Writable dirs for Filebeat (required when root filesystem is read-only)
+        - name: filebeat-data
+          emptyDir: {}
+        - name: filebeat-logs
+          emptyDir: {}
+
+---
+# HorizontalPodAutoscaler will be defined in hpa.yaml
+# Service will be defined in service.yaml
