@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'python:3.12-slim'
-            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock -v /home/vishesh/.kube:/root/.kube'
+            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock -v /home/vishesh/.kube:/root/.kube -v /home/vishesh/.minikube:/home/vishesh/.minikube'
         }
     }
 
