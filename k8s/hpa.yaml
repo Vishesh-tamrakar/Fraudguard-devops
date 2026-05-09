@@ -30,7 +30,7 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 70    # Target 70% CPU utilization
+          averageUtilization: 50    # Target 50% CPU utilization
     
     # Memory-based scaling (secondary metric)
     - type: Resource
