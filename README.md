@@ -3,6 +3,8 @@
 > **Fraud Detection Microservice with Complete CI/CD Pipeline**
 > 
 > CSE 816 Final Project — Intelligent Systems Engineering, San José State University
+> 
+> Authors: MT2025064 Kautilya Singh & MS2025021 Vishesh Tamrakar
 
 ---
 

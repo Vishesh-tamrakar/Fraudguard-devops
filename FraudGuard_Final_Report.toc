@@ -1,0 +1,24 @@
+\contentsline {section}{\numberline {1}System Overview}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}End-to-End Execution Sequence}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}User Roles}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Core Functionalities and Evaluation Mapping}{4}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}High-Level Request Flow}{5}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Repository Structure and Codebase Breakdown}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Code File Descriptions}{7}{subsection.2.1}%
+\contentsline {section}{\numberline {3}Application and Machine Learning Layer}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Dataset and Feature Engineering}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Offline Machine Learning Training Pipeline}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Random Forest Model Configuration}{8}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}FastAPI Implementation}{9}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Docker Containerization}{9}{section.4}%
+\contentsline {section}{\numberline {5}Ansible Configuration Management}{10}{section.5}%
+\contentsline {section}{\numberline {6}Jenkins and CI/CD Automation}{11}{section.6}%
+\contentsline {subsection}{\numberline {6.1}GitHub Webhook Triggers}{11}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Detailed Pipeline Stages}{11}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Kubernetes Orchestration and Live Patching}{12}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Live Patching and Rolling Updates}{12}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Horizontal Pod Autoscaler (HPA)}{13}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Security and Vault Integration}{14}{section.8}%
+\contentsline {section}{\numberline {9}ELK Stack for Centralized Logging}{15}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Filebeat Sidecar Architecture}{15}{subsection.9.1}%
+\contentsline {section}{\numberline {10}Conclusion}{17}{section.10}%

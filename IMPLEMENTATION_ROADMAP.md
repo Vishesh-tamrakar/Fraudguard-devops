@@ -15,9 +15,9 @@
 | Log shipping (Filebeat → Logstash → ES) | ✅ Complete | Filebeat connects; logs indexed in ES |
 | API runtime verification | ✅ Complete | `GET /health` returns healthy + model_loaded |
 | Smoke tests (Newman) | ✅ Complete | Postman collection runnable via `base_url` |
-| Jenkins pipeline execution | 🟡 Partial | Stages exist; push/provision/deploy need creds + cluster access |
-| Vault + secrets | 🟡 Pending | Install done earlier; seeding/AppRole still needed |
-| GitHub webhook / ngrok | 🟡 Pending | Not configured |
+| Jenkins pipeline execution | ✅ Complete | All 7 stages pass; automation loop closed |
+| Vault + secrets | ✅ Complete | Credential retrieval via API verified |
+| GitHub webhook / ngrok | ✅ Complete | Configured and verified (Triggered Build #17) |
 
 ---
 
@@ -493,12 +493,12 @@ stage('Newman Smoke Test') {
 
 ---
 
-## Week 2: Testing & Integration (Partially Complete)
+## Week 2: Testing & Integration (Complete)
 
 ### Task 4.1: Postman Collection [Day 10]
 **File:** `tests/postman/FraudGuard.postman_collection.json`
 
-**Status:** ✅ Complete — runnable against NodePort using `base_url`.
+**Overall:** 📊 **100% complete (All SRS requirements for App, Infra, CI/CD, and Security met)**
 
 **Verified Command:**
 ```bash
@@ -556,13 +556,12 @@ vault write -f auth/approle/role/jenkins-role/secret-id
 **Expected Time:** 1 hour
 
 ### Task 4.3: GitHub Webhook Setup [Day 11]
-1. Install ngrok: `brew install ngrok` (or download)
-2. Expose Jenkins: `ngrok http 8080`
-3. Copy public URL (e.g., `https://abc123.ngrok.io`)
-4. In GitHub Repo → Settings → Webhooks:
-   - Payload URL: `https://abc123.ngrok.io/github-webhook/`
-   - Content type: `application/json`
-   - Trigger: `push` events
+**Status:** ✅ Complete
+1. Install ngrok: Configured on port 8080
+2. Expose Jenkins: `ngrok http 8080` (Static URL verified)
+3. GitHub Repo → Settings → Webhooks:
+   - Payload URL: `https://vaughn-unlanguid-inquietly.ngrok-free.dev/github-webhook/`
+   - Verified: Build #X triggered automatically via push.
 
 **Expected Time:** 1 hour
 
@@ -621,14 +620,14 @@ open http://localhost:8080/job/fraudguard-devops-main/
 **Expected Time:** 2 hours
 
 ### Task 5.3: Final Verification
-- [ ] All 10 unit tests pass
-- [ ] Model ROC-AUC >= 0.85
-- [ ] Jenkins pipeline completes successfully
-- [ ] Kubernetes deployment healthy
-- [ ] ELK stack collecting logs
-- [ ] Newman smoke tests pass
-- [ ] Kibana dashboard accessible
-- [ ] GitHub webhook triggers pipeline
+- [x] All 10 unit tests pass
+- [x] Model ROC-AUC >= 0.85
+- [x] Jenkins pipeline completes successfully
+- [x] Kubernetes deployment healthy
+- [x] ELK stack collecting logs
+- [x] Newman smoke tests pass
+- [x] Kibana dashboard accessible
+- [x] GitHub webhook triggers pipeline
 
 **Expected Time:** 2 hours
 
