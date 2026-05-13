@@ -10,3 +10,13 @@ build/
 .pytest_cache/
 .coverage
 data/*.csv
+
+# Academic Reports and Logs
+SPE_Final_Project.pdf
+FraudGuard_SRS.pdf
+srs.txt
+FraudGuard_Final_Report.tex
+FraudGuard_Final_Report.aux
+FraudGuard_Final_Report.log
+FraudGuard_Final_Report.out
+FraudGuard_Final_Report.toc
