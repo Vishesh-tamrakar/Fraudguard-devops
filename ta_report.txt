@@ -1,0 +1,2111 @@
+SPE Final Project
+
+MovieTime: A Microservices-Based Online Movie
+Booking Platform
+
+Group Members
+Ajitesh Kumar Singh – IMT2022559
+Ketan Ghungralekar – IMT2022058
+
+GitHub Repositories
+Backend:
+https:
+//github.com/KetanGhungralekar/Movie-Booking-System-Microservices.git
+
+Frontend:
+https://github.com/Transyltooniaa/Movie-Booking-Service-Frontend.git
+
+Contents
+1 System Overview
+
+6
+
+1.1
+
+User Roles . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+6
+
+1.2
+
+Core Functionalities . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+6
+
+1.3
+
+Microservices-Based Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+7
+
+1.4
+
+High-Level Request Flow
+
+7
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+2 Overall System Architecture
+
+8
+
+2.1 Architectural Style . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+8
+
+2.2
+
+Frontend Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+8
+
+2.3
+
+Backend Microservices Architecture
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+8
+
+2.4
+
+Database Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+9
+
+2.5
+
+Inter-Service Communication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+9
+
+2.6
+
+Service Discovery and Dynamic Routing . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+9
+
+2.7
+
+Deployment Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+
+2.8
+
+Observability Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+
+2.9
+
+Security Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+
+3 Technology Stack
+
+11
+
+3.1
+
+Frontend Technologies . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+
+3.2
+
+Backend Technologies . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+
+3.3
+
+Databases and Caching . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+
+3.4
+
+Messaging and Event Processing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+
+3.5
+
+Service Discovery and Routing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+
+3.6
+
+Containerization and Orchestration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+
+3.7
+
+CI/CD and Automation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+
+3.8
+
+Logging and Monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+
+3.9
+
+Security Tools . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+
+4 Frontend Architecture and Implementation
+
+14
+
+4.1
+
+Frontend Architecture Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+
+4.2
+
+Communication with Backend . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+
+4.3
+
+User Interface Flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+
+4.4
+
+State Management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+
+4.5 Authentication Handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+4.6
+
+Frontend Deployment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+
+5 Backend Architecture and Implementation
+
+1
+
+17
+
+5.1
+
+Backend Design Principles . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+
+5.2
+
+Backend Service Composition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+
+5.3
+
+Synchronous Service Communication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+
+5.4 Asynchronous Event-Driven Communication . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+5.5
+
+Database-per-Service Pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+
+5.6
+
+Caching Strategy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+
+5.7
+
+Backend Deployment Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+
+6 API Gateway
+
+20
+
+6.1
+
+Role of the API Gateway . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+
+6.2
+
+Routing Mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+
+6.3
+
+Security Handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+
+6.4
+
+Service Discovery Integration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+
+6.5
+
+Fault Isolation and Reliability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+
+6.6
+
+Deployment of API Gateway . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+
+7 Eureka Discovery Server
+
+22
+
+7.1
+
+Purpose of Service Discovery . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+
+7.2
+
+Service Registration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+
+7.3
+
+Service Discovery Process . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+
+7.4
+
+Health Monitoring and Fault Handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+
+7.5
+
+Integration with API Gateway . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+
+7.6
+
+Deployment of Eureka Server . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+
+7.7
+
+Benefits of Eureka . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+
+8 User Service
+8.1
+
+24
+
+Core Responsibilities . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+
+8.2 Authentication Workflow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+8.3 JWT-Based Security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+8.4
+
+Role-Based Access Control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+
+8.5
+
+Database Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+
+8.6
+
+Password Security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+
+8.7
+
+Service Deployment
+
+8.8
+
+Fault Isolation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+
+9 Movie Service
+
+27
+
+9.1
+
+Core Responsibilities . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+
+9.2
+
+Movie Management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+
+9.3
+
+Show Management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+
+2
+
+9.4
+
+Inter-Service Communication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28
+
+9.5
+
+Database Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28
+
+9.6
+
+Service Discovery and Configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28
+
+9.7
+
+Deployment Details . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28
+
+9.8
+
+Reliability and Data Integrity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28
+
+10 Booking Service
+
+30
+
+10.1 Core Responsibilities . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+10.2 Booking Workflow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+10.3 Database Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+10.4 Caching and Seat Locking with Redis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+10.5 Asynchronous Messaging . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+10.6 Service Integration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+10.7 Deployment Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+10.8 Reliability and Consistency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+11 Payment Service
+
+33
+
+11.1 Responsibilities . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+11.2 Asynchronous Communication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+11.3 Deployment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+11.4 Security Considerations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
+12 Notification Service
+
+35
+
+12.1 Responsibilities . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+12.2 Event-Driven Workflow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+12.3 Fetching Show and Movie Details . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+12.4 Email Delivery . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+12.5 Asynchronous and Reliable Processing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+12.6 Deployment Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+12.7 Security and Isolation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+13 Redis
+
+37
+
+13.1 Role of Redis in the Booking Workflow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+13.2 Why Redis Is Suitable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+13.3 Data Volatility and Safety . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+13.4 Deployment in Kubernetes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+13.5 System Reliability Contribution . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+14 Database Layer
+
+39
+
+3
+
+14.1 Service-Specific Databases . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+14.2 PostgreSQL Deployment Using StatefulSets . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+14.3 Secure Credential Management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+14.4 Testing With In-Memory H2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+14.5 Horizontal Scaling With Zalando Postgres Operator . . . . . . . . . . . . . . . . . . . . . 40
+14.6 Consistency and Reliability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+15 Docker Containerization
+
+41
+
+15.1 Service Containerization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+15.2 Docker Compose Setup . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+15.3 Networking and Service Access . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+15.4 Environment Profiles . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+15.5 Resource Control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+15.6 Benefits to MovieTime . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+16 Jenkins and CI/CD Automation
+
+43
+
+16.1 Overall CI/CD Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43
+16.2 Role of Jenkins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+16.3 Selective Build and Parallel Deployment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+16.4 Automated Kubernetes Deployment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+16.5 Testing Integration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+16.6 Benefits of the CI/CD Pipeline . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+17 Kubernetes Orchestration
+
+46
+
+17.1 Role of Kubernetes in the System . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
+17.2 Namespaces and Logical Isolation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
+17.3 Workload Types Used . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+17.4 Service Discovery and Networking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+17.5 Configuration and Secrets Management . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+17.6 Resource Management and Stability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+17.7 Self-Healing and Reliability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+17.8 Scalability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+17.9 Production Readiness . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+18 Ingress and External Access
+
+48
+
+18.1 Ingress Controller . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+18.2 Hostname-Based Routing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+18.3 Path-Based Routing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+18.4 Cluster State Screenshot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
+
+4
+
+18.5 Security and Isolation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
+18.6 Scalability and Load Balancing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
+18.7 Operational Benefits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
+19 ELK Stack for Centralized Logging
+
+51
+
+19.1 Purpose of Centralized Logging . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 51
+19.2 Elasticsearch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 51
+19.3 Logstash . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 51
+19.4 Filebeat . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52
+19.5 Kibana . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52
+19.6 Structured JSON Logging . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52
+19.7 Operational Benefits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52
+19.8 Production Readiness . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 53
+20 Testing Strategy
+
+54
+
+20.1 Unit Testing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+20.2 Profile-Based Testing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+20.3 Integration Testing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+20.4 Message Queue Testing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+20.5 Security Testing
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+
+20.6 CI-Based Automated Testing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+20.7 Resilience of the Testing Approach . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+21 Performance Considerations
+
+55
+
+21.1 Microservices-Based Scalability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+21.2 Database Performance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+21.3 Redis Caching . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+21.4 Asynchronous Processing with RabbitMQ . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+21.5 API Gateway Efficiency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+21.6 Container Resource Management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+21.7 Horizontal Scalability
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56
+
+21.8 Logging and Monitoring Impact . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56
+21.9 Overall Performance Characteristics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56
+22 Deployment Workflow
+
+56
+
+23 Why Ansible Is Not Required
+
+56
+
+5
+
+1 System Overview
+MovieTime is a full-stack, microservices-driven online movie booking platform designed to deliver a
+seamless digital ticketing experience. The system enables end users to create accounts, authenticate
+securely, browse movies, explore available showtimes, reserve seats, complete online payments, and receive
+booking confirmations through email notifications. The architecture follows modern distributed system
+principles, ensuring scalability, reliability, and maintainability across all operational environments.
+The platform is organized into three primary layers, each responsible for a distinct operational domain:
+• Frontend Layer: A React-based web application providing the user interface for customers and
+administrative users.
+• Backend Layer: A collection of independent Spring Boot microservices implementing business
+logic and handling domain responsibilities.
+• Infrastructure and DevOps Layer: Deployment and operational tooling built on Docker,
+Kubernetes, Jenkins, and the ELK stack for automation, scalability, and observability.
+
+1.1 User Roles
+MovieTime supports multiple interacting roles within the system. End users engage with the platform to
+browse content and make bookings, while administrators manage the catalogue of movies and showtimes.
+In addition, several internal system services operate autonomously to enable inter-service communication,
+monitoring, and orchestration.
+• User: Performs registration, authentication, movie exploration, seat booking, completing payments,
+and receiving transactional notifications.
+• Admin: Manages movies, show schedules, and system-level entities through privileged interfaces.
+• System Services: Microservices coordinating with each other through REST APIs and asynchronous message queues.
+
+1.2 Core Functionalities
+The platform provides a wide range of functional capabilities essential for a production-ready booking
+system. These include secure access control using JWT, robust booking workflows with seat availability
+enforcement, integrated payment handling, and automated email-based communication. Centralized
+logging and service discovery further enhance operational resilience.
+Key capabilities include:
+• Secure user authentication and authorization
+• Movie and show management
+• Real-time ticket booking and seat availability tracking
+• Dedicated payment processing service
+• Automated email notifications
+• Dynamic routing and service discovery
+• Centralized logging and monitoring
+
+6
+
+1.3 Microservices-Based Design
+The backend architecture is fully microservices-oriented. Each business capability is encapsulated within
+its own service, deployed independently, and backed by a dedicated database. This separation enables
+fault isolation, horizontal scalability, and flexibility for future extensions using heterogeneous technologies.
+The primary microservices include:
+• User Service
+• Movie Service
+• Booking Service
+• Payment Service
+• Notification Service
+• API Gateway
+• Eureka Discovery Server
+
+1.4 High-Level Request Flow
+User requests traverse through multiple architectural layers before the final response is returned. Figure 1
+illustrates the overall operational flow through the gateway, microservices, databases, and observability
+systems.
+
+Frontend (React App)
+
+API Gateway
+
+Business Microservices
+(User, Movie, Booking, Payment)
+
+Notification Service
+
+Service-Specific Databases
+
+ELK Stack for Logging
+
+Figure 1: High-Level Request and Processing Flow
+A typical request proceeds as follows:
+1. The frontend application sends all API calls to the API Gateway.
+2. The gateway performs routing to the appropriate backend service.
+3. Microservices communicate with each other through REST APIs or RabbitMQ events.
+4. Data persistence is handled through service-specific PostgreSQL databases.
+5. The processed response is returned to the frontend through the gateway.
+6. All logs generated by the microservices and infrastructure are forwarded to the ELK stack.
+
+7
+
+2 Overall System Architecture
+The MovieTime platform follows a cloud-native microservices architecture in which each major
+business function is implemented as an independent service. The system is designed to be loosely coupled,
+highly scalable, fault-tolerant, and suitable for containerized deployment in a Kubernetes environment.
+At a high level, the architecture consists of:
+• A web-based frontend built using React
+• Multiple Spring Boot backend microservices
+• Dedicated databases for each service
+• Asynchronous communication using RabbitMQ
+• Centralized service discovery using Eureka
+• An API Gateway for routing and security
+• DevOps components such as Docker, Kubernetes, Jenkins, and ELK
+
+2.1 Architectural Style
+The application follows the Microservices Architectural Pattern. Each microservice:
+• Is deployed independently
+• Has its own dedicated database
+• Exposes REST APIs for synchronous communication
+• Uses message queues for asynchronous processing
+This design improves system scalability, reduces the impact of failures, and allows individual services to
+evolve independently.
+
+2.2 Frontend Architecture
+The frontend is implemented as a Single Page Application (SPA) using React. It communicates only with
+the API Gateway and does not interact directly with backend services. Key characteristics include:
+• Component-based UI structure
+• REST-based communication with backend services
+• JWT-based authentication for secure access
+• Deployment as a containerized application
+
+2.3 Backend Microservices Architecture
+The backend is composed of several independent microservices, each responsible for a specific business
+capability. Table 1 provides an overview of all backend components.
+
+8
+
+Microservice
+
+Description
+
+User Service
+
+Handles user registration, authentication, authorization,
+and profile management.
+
+Movie Service
+
+Manages movies, shows, schedules, genres, pricing, and
+availability.
+
+Booking Service
+
+Coordinates the end-to-end booking workflow, including
+seat locking, validation, and confirmation.
+
+Payment Service
+
+Processes payment transactions and emits payment success events for downstream services.
+
+Notification
+vice
+
+Sends booking confirmation emails asynchronously based
+on booking events.
+
+Ser-
+
+API Gateway
+
+Central entry point for all client requests, providing
+routing, filtering, and request validation.
+
+Discovery Server
+(Eureka)
+
+Registers microservices and enables runtime service discovery for dynamic communication.
+
+Table 1: Overview of Backend Microservices
+2.4 Database Architecture
+Every core microservice uses its own dedicated PostgreSQL database. This follows the Database-perService pattern, which ensures:
+• Strong data isolation
+• Independent schema evolution
+• No tight coupling between services through shared databases
+Persistent storage is managed using Kubernetes Persistent Volume Claims (PVCs) to ensure data
+durability.
+
+2.5 Inter-Service Communication
+Two types of communication are used between microservices:
+• Synchronous Communication: REST APIs using HTTP for direct service-to-service calls (e.g.,
+booking service calling movie service).
+• Asynchronous Communication: Event-driven communication using RabbitMQ (e.g., payment
+success events, booking notifications).
+This hybrid communication model improves performance and system resilience.
+
+2.6 Service Discovery and Dynamic Routing
+The system uses Eureka Discovery Server to enable dynamic service registration and discovery:
+
+9
+
+• All backend services automatically register with Eureka on startup.
+• The API Gateway queries Eureka to locate services dynamically.
+• Hardcoded service IP addresses are avoided.
+This allows easy scaling and dynamic service replacement without configuration changes.
+
+2.7 Deployment Architecture
+The entire system is deployed inside a Kubernetes cluster. The following Kubernetes components are
+used:
+• Deployments for stateless services
+• StatefulSets for databases
+• ClusterIP Services for internal networking
+• Ingress Controller for external access
+• Namespaces for logical resource separation
+Each microservice is exposed internally using Kubernetes services and externally using the Ingress
+Controller through the API Gateway.
+
+2.8 Observability Architecture
+To ensure full system observability, centralized logging is implemented using the ELK stack:
+• Filebeat captures logs from all containers
+• Logstash processes and forwards logs
+• Elasticsearch stores searchable logs
+• Kibana provides visual dashboards for log analysis
+This enables real-time monitoring, debugging, and performance analysis across all services.
+
+2.9 Security Architecture
+System security is enforced at multiple levels:
+• JWT-based authentication and authorization
+• API Gateway as a centralized access control layer
+• Password encryption using BCrypt
+• Private internal communication within the Kubernetes cluster
+This layered security model ensures that only authenticated and authorized users can access protected
+resources.
+
+10
+
+3 Technology Stack
+MovieTime uses a modern and practical technology stack chosen to support scalability, fault tolerance,
+and smooth deployment workflows. The stack covers frontend development, backend microservices, data
+management, messaging, containerization, CI/CD automation, and centralized observability. Each layer
+contributes to a modular and production-ready architecture.
+
+Technology Stack Overview Diagram
+Frontend: React.js, HTML5, CSS3, JavaScript
+Backend: Spring Boot, Spring Security, JPA, REST APIs, JWT
+Databases & Caching: PostgreSQL, Redis, H2
+Messaging: RabbitMQ
+Discovery & Routing: Eureka, Spring Cloud Gateway
+Deployment: Docker, Kubernetes, Minikube
+CI/CD: Jenkins, Git, GitHub
+Observability: Elasticsearch, Logstash, Filebeat, Kibana
+Security: JWT, BCrypt, Network Policies
+Figure 2: High-Level Technology Stack
+3.1 Frontend Technologies
+The user interface is built with React.js, providing a component-driven structure suitable for dynamic
+web applications. Standard web technologies such as HTML5, CSS3, and JavaScript support layout,
+styling, and client-side interactions. The frontend communicates with backend microservices through
+REST APIs exposed by the API Gateway.
+• React.js for modular UI development
+• HTML5, CSS3, JavaScript for structure and styling
+• REST API integration via the API Gateway
+
+3.2 Backend Technologies
+The backend consists of independently deployable Spring Boot microservices. Each service manages its
+own domain logic and uses Spring Security for authentication and authorization. Spring Data JPA enables
+clean database interactions, while JWT supports stateless authentication across distributed components.
+• Spring Boot for building microservices
+• Spring Security for access control
+• Spring Data JPA for ORM-based persistence
+• JWT for secure authentication
+
+11
+
+• REST APIs for inter-service communication
+
+3.3 Databases and Caching
+Persistent data is stored in PostgreSQL, with each service managing its own database following the
+Database-per-Service pattern. Redis provides in-memory caching to improve performance, while H2 is
+used during testing phases.
+• PostgreSQL as the primary relational database
+• Redis for high-speed caching
+• H2 for lightweight test environments
+
+3.4 Messaging and Event Processing
+RabbitMQ supports asynchronous workflows such as booking events and payment notifications. This
+decouples microservices and improves responsiveness during peak load.
+Messaging Component:
+• RabbitMQ for event-driven communication
+
+3.5 Service Discovery and Routing
+Eureka handles dynamic service registration, enabling services to discover each other without hardcoded
+endpoints. The API Gateway provides centralized routing, filtering, and request handling.
+• Eureka Discovery Server for service registry
+• Spring Cloud Gateway for request routing
+
+3.6 Containerization and Orchestration
+The system runs inside Docker containers, ensuring consistent environments across development and
+production. Kubernetes orchestrates these containers, manages scaling, self-healing, and load balancing.
+Minikube supports local cluster experimentation.
+• Docker for containerization
+• Kubernetes for orchestration and scaling
+• Minikube for local cluster deployment
+
+3.7 CI/CD and Automation
+Automated builds, tests, and deployments are handled through Jenkins pipelines. Git and GitHub
+maintain version control and facilitate collaborative development workflows.
+• Jenkins for CI/CD automation
+• Git and GitHub for source code management
+
+3.8 Logging and Monitoring
+System observability is implemented using the ELK stack. Filebeat collects logs, Logstash processes them,
+Elasticsearch indexes them, and Kibana provides dashboards and visualization tools.
+• Elasticsearch for log storage and indexing
+
+12
+
+• Logstash for log processing
+• Filebeat for log forwarding
+• Kibana for visualization and monitoring
+
+3.9 Security Tools
+Security is enforced using multi-layered mechanisms including JWT authentication, BCrypt password
+hashing, and Spring Security policies. Kubernetes network isolation adds further protection at the
+infrastructure level.
+• JWT for stateless authentication
+• BCrypt for password hashing
+• Spring Security for authorization rules
+• Network isolation through Kubernetes policies
+This balanced and well-integrated technology stack ensures that MovieTime remains scalable, maintainable,
+and reliable for production environments.
+
+13
+
+4 Frontend Architecture and Implementation
+The frontend of the MovieTime platform is developed as a modern Single Page Application (SPA)
+using React. It delivers a responsive, intuitive, and fluid user experience while interacting seamlessly with
+backend microservices. All communication flows through the API Gateway, ensuring secure, centralized
+request handling and preventing direct exposure of internal services.
+
+Figure 3: Frontend Landing Page
+4.1 Frontend Architecture Overview
+The frontend follows a component-based architecture in which the interface is divided into modular,
+reusable building blocks. Each component encapsulates a specific UI function such as authentication,
+movie browsing, booking workflow, payments, or user profile management. This structure improves
+maintainability and supports rapid feature development.
+Key architectural characteristics include:
+• Modular and reusable components for clean UI structure
+• Unidirectional data flow, improving predictability
+• Separation of stateless and stateful components
+• API-driven interaction with backend microservices
+
+4.2 Communication with Backend
+The frontend interacts with the backend ecosystem through RESTful APIs. All requests pass through
+the API Gateway, which manages routing, authentication, filtering, and service discovery.
+• JWT Tokens: Stored on the client after login and attached to all authenticated requests.
+• Standard HTTP Methods: GET, POST, PUT, DELETE for CRUD operations.
+• Gateway-Based Routing: No direct communication with individual microservices.
+
+14
+
+4.3 User Interface Flow
+The user journey on the frontend follows a structured interaction pipeline, illustrated in Figure 4. The
+steps below outline the typical sequence:
+1. The user registers or logs in using email and password.
+2. Upon successful authentication, a JWT token is issued.
+3. Available movies and show timings are retrieved from the backend.
+4. The user selects a show and begins the booking process.
+5. Seat availability is validated through backend services.
+6. The user proceeds to payment, which is processed by the payment service.
+7. A booking confirmation page is displayed.
+8. A confirmation email is dispatched via the notification service.
+
+User Login / Registration
+JWT Issued
+Browse Movies and Shows
+Select Show and Book Seats
+Payment Processing
+Booking Confirmation
+Figure 4: User Interface Interaction Flow
+4.4 State Management
+State is maintained primarily through React’s built-in mechanisms such as state, props, and context
+where applicable. The application tracks essential state elements, notably authentication status, movie
+and show lists, ongoing booking details, and payment results. This localized approach ensures predictable
+rendering and avoids unnecessary global state complexity.
+
+4.5 Authentication Handling
+Authentication is facilitated through JWT-based security. After logging in, the frontend stores the
+issued token and attaches it to every protected API request using the Authorization header. The API
+Gateway validates the token before forwarding the request to backend services, ensuring secure interaction
+across the distributed architecture.
+• Authentication handled through the User Service (via API Gateway)
+• JWT stored on client and used for all protected endpoints
+
+15
+
+• The gateway validates tokens before allowing service access
+
+4.6 Frontend Deployment
+The React application is fully containerized using Docker and deployed inside the Kubernetes cluster.
+An Ingress Controller exposes the frontend to external users and manages routing rules. Deployment
+strategies support horizontal scaling, rolling updates, and independent release cycles.
+• Scalable frontend replicas managed by Kubernetes
+• Rolling updates without service downtime
+• Independent deployment lifecycle from backend services
+This architecture ensures a responsive user interface, secure interactions, and smooth integration with
+backend microservices, supporting a reliable and user-friendly movie booking experience.
+
+Figure 5: Frontend SC
+
+16
+
+5 Backend Architecture and Implementation
+The backend of the MovieTime platform is built on a fully distributed microservices architecture.
+Each core business capability is encapsulated within an independent Spring Boot service, enabling isolated
+development, deployment, scaling, and fault handling. This distributed design ensures that the system
+remains modular and capable of evolving without impacting other components.
+
+5.1 Backend Design Principles
+The backend architecture adopts several foundational design principles to ensure reliability and maintainability. Services are designed with loose coupling, meaning they interact primarily through APIs
+or asynchronous events rather than sharing internal logic. Each service maintains high cohesion by
+focusing on a single business responsibility. Because services are independent, they can be scaled individually to handle varying loads. Failures are contained due to fault isolation, preventing system-wide
+disruptions. Most services operate as stateless components, allowing easier load distribution and
+reducing session-related complexity.
+• Loose Coupling: Services communicate without tight dependencies.
+• High Cohesion: Each service handles a distinct domain function.
+• Independent Scalability: Workload-dependent scaling.
+• Fault Isolation: Failures do not cascade across the system.
+• Stateless Service Design: Facilitates efficient load balancing.
+
+5.2 Backend Service Composition
+The backend is composed of several independently deployed microservices, each mapped to a domain of
+the MovieTime platform:
+• User Service
+• Movie Service
+• Booking Service
+• Payment Service
+• Notification Service
+• API Gateway
+• Eureka Discovery Server
+All services are implemented using a consistent technology stack:
+• Spring Boot for microservice development
+• Spring Data JPA for database integration
+• Spring Security for access control where required
+
+Backend Architecture Diagram
+5.3 Synchronous Service Communication
+Real-time operations such as retrieving movie listings, validating bookings, or checking seat availability
+rely on synchronous REST communication. These requests always pass through the API Gateway,
+
+17
+
+API Gateway
+
+Eureka Discovery Server
+
+User Service
+
+Payment Service
+
+Movie Service
+
+Notification Service
+
+Booking Service
+Figure 6: High-Level Backend Microservices Architecture
+which performs routing, token validation, and load balancing. Services communicate using standard
+HTTP request–response patterns, ensuring predictable interactions.
+• Request routing through the API Gateway
+• JWT validation for secure access
+• Load distribution across multiple service instances
+
+5.4 Asynchronous Event-Driven Communication
+Certain operations are handled asynchronously using RabbitMQ to improve responsiveness and decouple
+service responsibilities. These background tasks do not require immediate user feedback and benefit from
+non-blocking execution.
+Examples include:
+• Publishing payment success events
+• Triggering booking confirmation notifications
+This event-driven architecture enhances system resiliency and reduces synchronous dependencies.
+
+5.5 Database-per-Service Pattern
+Each microservice maintains its own dedicated PostgreSQL database, following the Database-perService pattern. This approach guarantees strong isolation, prevents schema conflicts, and allows each
+service to evolve independently.
+• Independent database schema per microservice
+• No direct database sharing between services
+• All cross-service data exchange occurs through APIs
+
+5.6 Caching Strategy
+The backend uses Redis as a high-performance caching layer. Frequently accessed data—such as available
+shows, seat maps, and movie listings—is cached to minimize load on relational databases and reduce
+overall response times.
+• Faster access to frequently queried data
+• Reduced database overhead during peak activity
+
+18
+
+• Improved user experience during booking operations
+
+5.7 Backend Deployment Model
+Each backend service is packaged as a Docker container and deployed in the Kubernetes cluster.
+Services run as individual Deployments or StatefulSets depending on persistence requirements. Internal
+communication occurs via ClusterIP services, while the platform benefits from Kubernetes features such
+as automatic restarts and rolling updates.
+• Containerized services for consistent environments
+• Kubernetes Deployments and StatefulSets for orchestration
+• Automatic scaling and self-healing through Kubernetes
+This backend architecture provides a flexible, modular, and resilient foundation for the MovieTime
+platform, ensuring scalability and operational stability in production environments.
+
+Figure 7: Backend SC
+
+19
+
+6 API Gateway
+The API Gateway serves as the single entry point for all external requests made to the MovieTime
+platform. The frontend interacts exclusively with the gateway, which forwards requests to backend
+microservices. This centralization enhances security, simplifies client-side logic, and provides a unified
+mechanism for routing and authentication.
+
+6.1 Role of the API Gateway
+The gateway consolidates multiple backend services behind a single interface. It performs essential
+functions such as:
+• Centralized routing to backend microservices
+• JWT validation for all protected endpoints
+• Load-aware request forwarding
+• Hiding internal service topology from clients
+This abstraction ensures that frontend components remain unaffected by backend restructuring or scaling.
+
+6.2 Routing Mechanism
+Routing is performed dynamically using information from the Eureka Discovery Server. When a request
+arrives:
+1. The gateway intercepts the request.
+2. The JWT token (if required) is validated.
+3. The request is forwarded to the appropriate microservice based on its service name.
+Because routing is not bound to fixed IP addresses, services can scale or restart without affecting client
+interactions.
+
+Routing Architecture Diagram
+Movie Service
+
+API Gateway
+
+Frontend Client
+
+Booking Service
+
+User Service
+Figure 8: API Gateway Request Routing
+6.3 Security Handling
+Security enforcement is centralized at the gateway. Public operations like login and registration pass
+through without authentication, while protected endpoints require a valid JWT token. The gateway
+verifies each token before forwarding requests, preventing unauthorized access to internal microservices.
+
+20
+
+6.4 Service Discovery Integration
+The API Gateway integrates seamlessly with Eureka. Microservices register themselves automatically,
+and the gateway uses this registry to locate available service instances. This enables built-in support for:
+• Dynamic service lookup
+• Automatic adaptation to scaling
+• Redirection away from failed instances
+
+6.5 Fault Isolation and Reliability
+By acting as a control point, the gateway improves overall system resilience. Faulty services are masked
+from the client, invalid traffic is filtered early, and requests can be rerouted to healthy instances. This
+minimizes user-visible failures and enhances availability.
+
+6.6 Deployment of API Gateway
+The gateway is deployed as a Dockerized Spring Cloud Gateway service inside the Kubernetes
+cluster. It uses:
+• A Kubernetes Deployment for container orchestration
+• A ClusterIP Service for internal routing
+• The Ingress Controller for external access
+This deployment strategy ensures scalable, secure, and highly available access to all backend services.
+
+Figure 9: API-Gateway
+
+21
+
+7 Eureka Discovery Server
+The Eureka Discovery Server provides service registration and dynamic discovery for all backend
+components in the MovieTime platform. Instead of relying on fixed IP addresses or manual configuration,
+services locate each other through Eureka, enabling smooth scaling and resilience within the microservices
+architecture.
+
+7.1 Purpose of Service Discovery
+In a distributed environment, service instances may scale, restart, or change network locations. Eureka
+addresses this by maintaining a central registry containing the latest availability information of all services.
+• Handles dynamic scaling and container restarts
+• Tracks changing IP addresses inside Kubernetes
+• Ensures flexible, decoupled communication between services
+
+7.2 Service Registration
+Each microservice registers itself with Eureka at startup by sending its metadata, such as service name
+and active port. Once registered, it becomes discoverable by other services and by the API Gateway.
+• Automatic registration at startup
+• Service metadata stored in Eureka registry
+• No manual endpoint configuration required
+
+7.3 Service Discovery Process
+When a service needs to reach another, it queries Eureka using only the target service name. Eureka
+returns the list of healthy instances, enabling dynamic routing without hardcoded addresses.
+1. The calling service requests instance details from Eureka.
+2. Eureka returns available healthy service instances.
+3. The request is routed to one of the discovered instances.
+
+Service Discovery Interaction Diagram
+Query Service B
+Service A
+
+Eureka Server
+
+Service B
+
+Instance Details
+Actual Request
+Figure 10: Dynamic Service Discovery via Eureka
+7.4 Health Monitoring and Fault Handling
+Eureka maintains an up-to-date registry by monitoring service health. Registered services send periodic
+heartbeat signals. Unresponsive instances are automatically removed, ensuring that only healthy services
+receive traffic.
+• Heartbeat-based health checks
+
+22
+
+• Automatic removal of unhealthy instances
+• Seamless addition of newly created instances
+
+7.5 Integration with API Gateway
+The API Gateway uses Eureka for:
+• Dynamic routing to service instances
+• Load distribution across multiple replicas
+• Failover when services become unavailable
+This integration eliminates the need to manually update gateway routes during deployments.
+
+7.6 Deployment of Eureka Server
+Eureka is deployed as a Dockerized Spring Boot application within Kubernetes. It runs as a
+Deployment and is exposed internally using a ClusterIP service, allowing all microservices to reach it
+through a stable internal endpoint.
+
+7.7 Benefits of Eureka
+• Removes dependency on static service endpoints
+• Supports dynamic scaling and rolling deployments
+• Increases resilience through active health tracking
+• Simplifies communication in the microservices ecosystem
+
+Figure 11: Discovery Server
+
+23
+
+8 User Service
+The User Service manages all user-related operations within the MovieTime platform, including
+registration, authentication, password security, and role-based access control. As the primary entry point
+for secure access, it issues and validates JWT tokens used across the entire backend ecosystem.
+
+Figure 12: Login Page
+8.1 Core Responsibilities
+The service provides fundamental user management capabilities. These include:
+• User registration and authentication
+• Role-based access enforcement
+• Secure password handling
+• JWT token generation for authenticated sessions
+All backend services rely on the tokens issued by this service to validate incoming requests.
+
+8.2 Authentication Workflow
+The authentication flow is implemented using a traditional credential check followed by JWT token
+issuance. The high-level workflow is:
+1. The user submits login credentials.
+2. Credentials are verified against the stored encrypted password.
+3. A JWT token is generated upon successful authentication.
+4. The token is returned to the client for authorization of future requests.
+
+24
+
+User Client
+Submit Login Credentials
+Validate Against DB
+Generate JWT Token
+Return Token to Client
+Figure 13: User Authentication Workflow
+Authentication Flow Diagram
+8.3 JWT-Based Security
+The service uses JWT tokens to provide stateless authentication. Each token includes the user identity
+and role, is digitally signed using a secret key, and expires after a defined duration. Backend services and
+the API Gateway validate the token before processing any protected request.
+• Contains user email and role
+• Signed with a secure secret key
+• Includes expiration time
+• Validated through a gateway-level JWT filter
+
+8.4 Role-Based Access Control
+Two roles govern access inside the system:
+• USER: Access to browsing and booking operations
+• ADMIN: Access to management and administrative operations
+Spring Security applies authorization rules based on roles extracted from the JWT.
+
+8.5 Database Design
+The User Service uses a dedicated PostgreSQL database that stores essential user details, including name,
+email, encrypted password, and role. The database runs as a StatefulSet in Kubernetes with persistent
+volume storage to ensure data durability.
+
+8.6 Password Security
+Strong password protection is enforced using BCrypt hashing. Plain-text passwords are never stored;
+instead:
+• All passwords are hashed before being saved.
+• Login attempts compare hashed values securely.
+This provides robust defense against credential leakage.
+
+25
+
+8.7 Service Deployment
+The User Service is packaged as a Docker image and deployed through Kubernetes. It is built using the
+CI pipeline and connected to PostgreSQL using environment-based configuration.
+• Built and pushed to registry via Jenkins
+• Deployed as a Kubernetes Deployment
+• Communicates internally using ClusterIP
+
+8.8 Fault Isolation
+Because authentication is handled in an independent service, operational faults remain localized. Other
+services continue functioning even if the User Service restarts, and existing valid JWT tokens remain
+usable until expiration.
+This ensures resilient and centralized security management for the platform.
+
+Figure 14: Register Page
+
+26
+
+9 Movie Service
+The Movie Service manages all movie and show-related information within the MovieTime platform.
+It stores movie metadata, maintains show schedules, tracks auditorium details, and provides pricing
+information. As the primary content provider, it supplies essential data used throughout the booking and
+notification workflows.
+
+Figure 15: Movies Page
+9.1 Core Responsibilities
+The service provides CRUD operations for movies and shows, maintains pricing and auditorium assignments, and exposes validated movie data to other backend services.
+• Manage movie records (create, update, delete, retrieve)
+• Maintain daily show schedules and auditorium assignments
+• Store pricing details for regular and premium seating
+• Provide movie and show information to booking and notification workflows
+
+9.2 Movie Management
+Movies are stored with key descriptive attributes such as title, genre, language, duration, and rating.
+Additional fields like release date, poster URL, and active status support filtering and presentation in the
+frontend.
+Administrators can update movie information, while end users retrieve only active movies when browsing.
+
+9.3 Show Management
+Each movie may have multiple scheduled shows. Show records include:
+• Start and end time
+
+27
+
+• Auditorium identifier
+• Regular and premium seat pricing
+The service also allows filtering shows by date to present daily screening schedules efficiently.
+
+9.4 Inter-Service Communication
+The Movie Service acts as a canonical source of movie-related data for other microservices:
+• The Booking Service retrieves movie and show details for seat validation.
+• The Notification Service uses show metadata when generating booking confirmation emails.
+This ensures consistency of show and movie information across the platform.
+
+9.5 Database Design
+The service uses PostgreSQL with two main entities:
+• Movie: Stores metadata such as title, genre, duration, poster URL, and release information.
+• Show: Stores schedule, auditorium, and pricing details.
+A one-to-many relationship exists between Movie and Show. Data persistence is implemented using
+JPA and Hibernate.
+
+Movie–Show Relationship Diagram
+Movie
+(MovieID, Title, Genre, Duration, ...)
+
+1-to-Many
+
+Show
+(ShowID, Time, Auditorium, Price, ...)
+
+Figure 16: Database Relationship Between Movie and Show
+9.6 Service Discovery and Configuration
+The Movie Service registers with the Eureka Discovery Server for dynamic service lookup and is
+accessed exclusively through the API Gateway. Configuration for database connections and optional
+messaging integrations is supplied through environment variables, supporting containerized and cloudnative deployments.
+
+9.7 Deployment Details
+The service is packaged as a Docker container and deployed in Kubernetes. It runs as a Deployment
+and communicates with its PostgreSQL instance running as a StatefulSet with persistent storage.
+• Dockerized microservice deployed as a Kubernetes Deployment
+• Internal exposure using a ClusterIP Service
+• Backed by a StatefulSet-managed PostgreSQL database
+
+9.8 Reliability and Data Integrity
+Data consistency is ensured through:
+• Transactional operations for updates
+
+28
+
+• Referential integrity enforced between Movie and Show entities
+• Automatic timestamping for record updates
+This guarantees accurate, reliable movie and show information throughout the system.
+
+Figure 17: Shows Page
+
+29
+
+10 Booking Service
+The Booking Service manages the complete ticket reservation workflow in the MovieTime platform.
+It validates show availability, locks seats temporarily, coordinates with the Payment Service, finalizes
+bookings, and publishes confirmation events. This service ensures data consistency and prevents race
+conditions during high-traffic booking operations.
+
+Figure 18: Booking Page
+10.1 Core Responsibilities
+The service handles all booking-related logic, including:
+• Validating movie and show availability
+• Temporary seat locking using Redis
+• Managing booking lifecycle and status transitions
+• Initiating payment processing
+• Publishing booking confirmation events
+• Accelerating seat lookup through Redis caching
+
+10.2 Booking Workflow
+A booking request follows a structured multi-step process that coordinates multiple backend services:
+1. User initiates a booking through the API Gateway.
+2. The service retrieves show information from the Movie Service.
+3. Seats are locked in Redis using TTL-based keys.
+4. Payment processing is delegated to the Payment Service.
+5. On successful payment, the booking is stored and marked confirmed.
+
+30
+
+6. A confirmation event is published for the Notification Service.
+This approach isolates long-running tasks and provides a responsive user experience.
+
+Booking Workflow Diagram
+User Initiates Booking
+Validate Show Details
+Lock Seats (Redis TTL)
+Trigger Payment Service
+Finalize Booking in DB
+Publish Confirmation Event
+Figure 19: End-to-End Booking Workflow
+10.3 Database Design
+The Booking Service uses PostgreSQL to store essential reservation data, including:
+• Booking identifiers and associated user details
+• Show ID, seat numbers, and pricing
+• Booking status (pending, confirmed, failed )
+• Timestamps for auditing and traceability
+The database runs as a Kubernetes StatefulSet backed by persistent storage.
+
+10.4 Caching and Seat Locking with Redis
+Redis is used as a high-speed cache and seat-locking system. It improves performance and prevents
+overselling by:
+• Caching frequently accessed show and seat metadata
+• Locking seats using TTL-based keys during payment
+• Reducing database contention during peak load
+
+10.5 Asynchronous Messaging
+After a successful payment, the service publishes a booking confirmation event via RabbitMQ. The
+Notification Service consumes this event to send user confirmation emails, ensuring loose coupling and a
+fast booking flow.
+
+10.6 Service Integration
+The Booking Service interacts with several backend components:
+
+31
+
+• Movie Service — show validation and metadata
+• Payment Service — payment initiation and result handling
+• Notification Service — email confirmation workflow
+• User Service — authentication and user context
+All communication is internal to the Kubernetes cluster.
+
+10.7 Deployment Architecture
+The service is deployed as a Dockerized Spring Boot application and managed by Kubernetes. It connects
+to PostgreSQL, Redis, and RabbitMQ, and registers itself with Eureka for service discovery.
+• Kubernetes Deployment with autoscaling support
+• Internal exposure via ClusterIP
+• Integration with Redis, PostgreSQL, and RabbitMQ
+
+10.8 Reliability and Consistency
+The service ensures booking integrity through:
+• ACID-compliant transactional operations
+• Redis-based seat locking to prevent double-booking
+• Asynchronous retries through RabbitMQ for reliability
+These mechanisms guarantee consistent and reliable booking operations during high traffic.
+
+Figure 20: My bookings Page
+
+32
+
+11 Payment Service
+The Payment Service handles payment processing within the MovieTime platform. It receives payment
+requests from the Booking Service, validates them, performs a simulated transaction, and notifies the
+system once the payment is completed. The service is intentionally lightweight and stateless, enabling
+rapid scaling and reliable event-driven communication.
+
+Figure 21: Payments Page
+11.1 Responsibilities
+The service focuses on a minimal set of payment-related operations:
+• Validating and processing payment requests
+• Simulating transaction outcomes
+• Returning immediate acknowledgement responses
+• Publishing asynchronous payment success events
+Because its operations do not require persistence, the Payment Service does not maintain its own database.
+
+11.2 Asynchronous Communication
+Rather than returning the final payment status synchronously, the service uses an event-driven pattern.
+After processing a transaction, it emits a payment result event consumed by the Booking Service. This
+design supports independent scaling, restarts, and failure recovery of both services without disrupting the
+booking workflow.
+
+11.3 Deployment
+The Payment Service is deployed as a lightweight Dockerized Spring Boot application, running as a
+Kubernetes Deployment within the cluster. It registers with Eureka for service discovery and communicates
+internally via ClusterIP networking.
+
+33
+
+11.4 Security Considerations
+Although simplified, the service enforces essential safeguards:
+• Strict validation of incoming payment payloads
+• Access restricted through the API Gateway
+• No public exposure of internal payment endpoints
+These measures prevent unauthorized access and maintain safe internal communication.
+
+Figure 22: Payments Page
+
+34
+
+12 Notification Service
+The Notification Service manages all user communication following a successful booking. It operates in
+an asynchronous, event-driven manner by consuming booking messages from RabbitMQ and sending
+confirmation emails without impacting the responsiveness of the main booking workflow.
+
+Figure 23: Rabbit MQ Dashboard
+12.1 Responsibilities
+The service is designed to run independently from core booking and payment operations. Its primary
+responsibilities include:
+• Consuming booking events from RabbitMQ
+• Retrieving movie and show metadata from the Movie Service
+• Generating and sending confirmation emails
+• Ensuring non-blocking notification delivery
+
+12.2 Event-Driven Workflow
+The service listens on the booking.notifications queue. Each incoming event contains essential details
+such as the Booking ID, User Email, Booking Status, and Show ID. Messages remain stored in
+RabbitMQ until successfully consumed, ensuring reliable and resilient processing.
+
+12.3 Fetching Show and Movie Details
+Upon receiving a booking event, the service uses Eureka-based discovery to call the Movie Service
+and retrieve required metadata—movie title, genre, auditorium, and show timings. These details are
+incorporated into the confirmation email, enabling the Notification Service to remain independent from
+booking logic.
+
+35
+
+12.4 Email Delivery
+Emails are delivered using a configured SMTP server. Each message includes:
+• Booking ID and confirmation status
+• Movie title and genre
+• Show timing and auditorium details
+This provides users with a complete, informative confirmation message.
+
+12.5 Asynchronous and Reliable Processing
+The service enhances overall system reliability:
+• Notification processing does not block booking or payment APIs
+• SMTP or network issues do not affect booking completion
+• RabbitMQ guarantees message durability and retry handling
+
+12.6 Deployment Architecture
+The Notification Service is deployed as a Dockerized Spring Boot application running as a Kubernetes
+Deployment inside the cluster. It communicates internally with RabbitMQ, Eureka, and the Movie
+Service, requiring no external exposure.
+
+12.7 Security and Isolation
+Security is maintained through:
+• Internal-only communication via ClusterIP services
+• No public API endpoints
+• SMTP credentials secured using Kubernetes Secrets
+This ensures safe, isolated, and reliable handling of all user notifications.
+
+Figure 24: Notification by mail
+
+36
+
+13 Redis
+Redis is used in the MovieTime platform as a high-speed, in-memory data store to support transient
+operations where extremely low latency is required. Its primary function is to assist the Booking Service
+in implementing fast and reliable seat-locking mechanisms under high concurrency.
+
+Figure 25: Redis
+13.1 Role of Redis in the Booking Workflow
+Redis enables the Booking Service to apply time-limited seat locks to prevent multiple users from
+reserving the same seat simultaneously. Key responsibilities include:
+• Temporary seat locking using TTL (typically 1–2 minutes)
+• Preventing race conditions during concurrent seat reservations
+• Fast seat availability lookups without frequent PostgreSQL access
+A lock entry is stored as:
+seat:{showId}:{seatNo} = locked
+with an automatic expiration time. If payment is not completed in time, Redis releases the seat
+automatically.
+
+Redis Seat Locking Block Diagram
+Booking Service
+
+Redis (TTL Locks)
+
+PostgreSQL
+
+Flow: Booking Service locks seats in Redis → Redis returns availability → Booking
+confirms and stores data in PostgreSQL.
+Flow: Booking Service locks seats in Redis → Redis returns availability → Booking confirmed in
+PostgreSQL
+
+13.2 Why Redis Is Suitable
+Redis offers microsecond-level read/write speeds, making it ideal for short-lived, conflict-sensitive
+operations. It supports:
+• Rapid conflict detection during seat selection
+• Lightweight, transient storage for temporary locks
+
+37
+
+• Atomic operations that prevent double-booking
+Redis complements PostgreSQL by handling only high-speed, non-persistent data.
+
+13.3 Data Volatility and Safety
+Redis is intentionally configured as a volatile store:
+• No persistence layer is enabled
+• All data can safely regenerate from PostgreSQL
+A Redis restart simply removes temporary locks, allowing seats to return to the available pool.
+
+13.4 Deployment in Kubernetes
+Redis is deployed as a lightweight Deployment within the movie-app namespace and exposed
+internally via a ClusterIP service. Persistent volumes are unnecessary since Redis stores only
+transient data.
+
+13.5 System Reliability Contribution
+Redis improves system reliability by:
+• Eliminating double-bookings through atomic lock operations
+• Reducing load on PostgreSQL during peak demand
+• Ensuring responsive booking flows under concurrent usage
+Thus, Redis acts as an essential high-speed coordination layer for safe and scalable ticket
+reservations.
+
+Figure 26: Redis Caching
+
+38
+
+14 Database Layer
+The MovieTime platform adopts a database-per-service architecture, where every microservice manages its own PostgreSQL database. This design avoids shared schemas, eliminates
+cross-service coupling, and enables each service to scale and evolve independently.
+
+14.1 Service-Specific Databases
+Each core backend service owns an isolated PostgreSQL instance:
+• User Service → user_db
+• Movie Service → movie_db
+• Booking Service → booking_db
+This isolation ensures clean service boundaries and fault containment across the system.
+
+Database-Per-Service Block Diagram
+User Service
+
+Movie Service
+
+Booking Service
+
+user_db
+
+movie_db
+
+booking_db
+
+Figure 27: Database-Per-Service Architecture
+14.2 PostgreSQL Deployment Using StatefulSets
+All production PostgreSQL instances run as Kubernetes StatefulSets, providing:
+• Stable, predictable pod identities
+• Persistent storage via PVCs
+• Internal access through ClusterIP services
+Each service connects through internal DNS names such as:
+user-db.movie-app.svc.cluster.local
+
+14.3 Secure Credential Management
+Sensitive database credentials are managed using Kubernetes Secrets, ensuring that:
+• No passwords are hardcoded in source code
+• Sensitive values remain encrypted and isolated
+• Credentials can be rotated without redeploying microservices
+
+39
+
+14.4 Testing With In-Memory H2
+For CI pipelines and automated tests, services use an in-memory H2 database configured in
+PostgreSQL compatibility mode. This provides:
+• Fast and isolated test execution
+• No dependency on external PostgreSQL instances
+• Independence from Eureka and other microservices during testing
+
+14.5 Horizontal Scaling With Zalando Postgres Operator
+To support advanced cloud-native database features, the platform integrates the Zalando
+Postgres Operator, which manages Postgres clusters.
+
+Cluster Configuration
+Example cluster (e.g., user-pg) includes:
+• A primary write node
+• One or more read replicas
+
+Cluster Integration
+Connecting a service to an operator-managed cluster requires only updating the JDBC URL; the
+operator handles provisioning, failover, and credential rotation automatically.
+
+Reliability and Scalability
+The operator enhances resilience through:
+• Automatic replica provisioning for horizontal read scaling
+• Built-in failover and leader election
+• Automatic Secret creation and rotation
+
+14.6 Consistency and Reliability
+Each microservice ensures strong consistency through:
+• ACID guarantees provided by PostgreSQL
+• ORM-based persistence using JPA/Hibernate
+• Event-driven communication rather than cross-service joins
+This ensures correctness for critical workflows such as ticket booking, scheduling, and payments
+in a distributed architecture.
+
+40
+
+15 Docker Containerization
+The MovieTime platform uses Docker to package and run all microservices and supporting
+components in isolated containers. This ensures consistent execution across environments,
+predictable deployments, and simplified local development.
+
+Figure 28: Docker
+15.1 Service Containerization
+Each backend microservice is packaged into a Docker image by:
+• Building the Spring Boot application into an executable JAR
+• Packaging it into an Eclipse Temurin JDK 17 base image
+Infrastructure components—PostgreSQL, Redis, RabbitMQ, and ELK—also run as individual
+containers, creating a uniform, self-contained runtime environment.
+
+Containerization Workflow Diagram
+Spring Boot Source Code
+
+Build JAR
+
+Docker Image (Temurin JDK 17)
+
+Running Container
+
+Figure 29: Microservice Containerization Flow
+15.2 Docker Compose Setup
+For local development, the entire platform can be started using docker-compose. This includes:
+• All backend microservices
+• A PostgreSQL instance per service
+• RabbitMQ and Redis
+• Elasticsearch, Logstash, Kibana, and Filebeat
+
+41
+
+This provides a full microservices environment with a single command, ensuring fast onboarding
+and reproducible test setups.
+
+15.3 Networking and Service Access
+All containers join a shared Docker network, allowing services to communicate using container
+names such as:
+booking-service → rabbitmq
+This eliminates the need for hardcoded IP addresses and simplifies inter-service communication.
+
+15.4 Environment Profiles
+Each microservice runs using a dedicated docker Spring profile, which configures:
+• Database connection URLs
+• Message broker endpoints
+• Centralized logging destinations
+The same profile is used across development, CI, and production containers for consistent
+behavior.
+
+15.5 Resource Control
+Resource constraints (CPU and memory limits) are applied to avoid contention and to simulate
+production-like conditions during local development.
+
+15.6 Benefits to MovieTime
+Containerization provides several advantages:
+• One-command startup of the entire microservices stack
+• Identical runtime environment across local, CI, and production stages
+• Simplified testing, debugging, and reproducibility
+These features make Docker a foundational component of the MovieTime development and
+deployment workflow.
+
+42
+
+Figure 30: Docker Images
+
+16 Jenkins and CI/CD Automation
+Jenkins provides a fully automated Continuous Integration and Continuous Deployment
+(CI/CD) pipeline for the MovieTime platform. Every change pushed to GitHub triggers a
+sequence of automated builds, tests, image generation, and Kubernetes deployments, ensuring
+fast and reliable delivery across all microservices.
+
+Figure 31: Jenkins
+16.1 Overall CI/CD Architecture
+The CI/CD workflow is organized into two tiers:
+• Master Orchestrator Pipeline — activated on every GitHub push; identifies which
+services changed and triggers only the necessary service pipelines.
+• Service-Level Pipelines — build, test, containerize, and deploy individual microservices
+independently.
+
+43
+
+This approach avoids unnecessary builds and scales efficiently across multiple microservices.
+
+CI/CD Pipeline Block Diagram
+GitHub Push
+
+Orchestrator Pipeline
+
+Microservice Pipeline
+
+Microservice Pipeline
+
+Microservice Pipeline
+
+Deploy to Kubernetes
+
+Figure 32: CI/CD Pipeline Flow with Jenkins
+16.2 Role of Jenkins
+Jenkins automates the full lifecycle of each microservice:
+• Pulls updated source code from GitHub
+• Detects file-level changes to avoid redundant builds
+• Runs Maven tests and publishes JUnit reports
+• Builds Docker images
+• Pushes images to Docker Hub using secure credentials
+• Deploys updated containers to Kubernetes via kubectl set image
+This provides a consistent and reliable process from code change to deployment.
+
+16.3 Selective Build and Parallel Deployment
+The orchestrator pipeline analyzes Git diffs to determine which microservices were modified.
+Only those services are rebuilt and redeployed.
+• Unchanged services are skipped automatically
+• Modified services build in parallel, reducing overall pipeline time
+This selective-trigger model enhances CI/CD performance and reduces compute usage.
+
+16.4 Automated Kubernetes Deployment
+After a successful build:
+
+44
+
+• The pipeline switches to the correct Kubernetes context
+• Updates the Deployment with the new Docker image
+• Waits for Kubernetes rollout completion to ensure zero downtime
+Minikube is used for local cluster deployment, but the same pipeline structure applies to any
+Kubernetes environment.
+
+16.5 Testing Integration
+Each microservice pipeline automatically runs its full test suite. Jenkins collects:
+• JUnit reports from Maven
+• Build logs and stack traces for debugging
+Any failing test stops the deployment, ensuring that defective builds never reach production.
+
+16.6 Benefits of the CI/CD Pipeline
+The Jenkins CI/CD system provides:
+• Faster and more reliable release cycles
+• Automated, reproducible deployments across services
+• Early error detection through integrated testing
+• Lower operational overhead for developers
+• Scalable orchestration suitable for large microservice systems
+
+Figure 33: Successful CI/CD runs triggered by GitHub webhook.
+Overall, Jenkins serves as the centralized automation engine that unifies development, testing,
+containerization, and Kubernetes deployment into a seamless delivery pipeline.
+
+45
+
+17 Kubernetes Orchestration
+Kubernetes is the core orchestration platform for the MovieTime application, responsible for
+deploying, managing, and scaling all microservices and supporting components. By running
+everything inside containerized workloads, Kubernetes provides automated scheduling, internal
+networking, service discovery, and self-healing capabilities, enabling the platform to operate in a
+cloud-native, production-ready manner.
+
+Figure 34: Kubernetes
+17.1 Role of Kubernetes in the System
+Kubernetes manages the entire lifecycle of all services—from starting and monitoring containers
+to restarting failed pods and distributing traffic across replicas. It also handles internal networking
+and DNS-based service discovery, ensuring that every microservice and infrastructure component
+can communicate reliably without requiring manual configuration.
+
+Kubernetes Deployment Architecture (Simplified)
+movie-app Namespace
+
+elk Namespace
+
+Deployments (Microservices)
+
+Elasticsearch / Logstash / Kibana
+
+StatefulSets (PostgreSQL)
+
+RabbitMQ / Redis
+
+Figure 35: High-Level Kubernetes Deployment Structure
+17.2 Namespaces and Logical Isolation
+Two namespaces structure the platform. The movie-app namespace hosts all business microservices and supporting systems such as PostgreSQL, Redis, RabbitMQ, and Eureka. The elk
+namespace contains Elasticsearch, Logstash, Kibana, and Filebeat. This separation improves
+clarity, security, and resource isolation.
+
+46
+
+17.3 Workload Types Used
+Microservices and stateless workloads run as Kubernetes Deployments, while PostgreSQL and
+Elasticsearch are deployed using StatefulSets to guarantee stable storage and identity. Filebeat
+runs as a DaemonSet so that log collection occurs on every node. Each workload type is chosen
+based on its operational requirements.
+
+17.4 Service Discovery and Networking
+All communication inside the cluster relies on Kubernetes ClusterIP services. Each service
+receives a stable DNS name, enabling the API Gateway to route requests correctly and backend
+services to access databases, Redis, RabbitMQ, and ELK components without manual endpoint
+management. Service discovery is therefore entirely handled by Kubernetes.
+
+17.5 Configuration and Secrets Management
+Runtime configuration is injected through environment variables and ConfigMaps, while sensitive
+credentials such as database passwords and RabbitMQ secrets are stored securely in Kubernetes
+Secrets. This keeps configuration external to the source code, improves security, and allows
+updates without rebuilding container images.
+
+17.6 Resource Management and Stability
+Each Deployment specifies CPU and memory requests and limits. Kubernetes uses these values
+to schedule pods efficiently and to prevent resource contention. Services exceeding their limits
+are isolated or restarted, ensuring overall platform stability even during peak load.
+
+17.7 Self-Healing and Reliability
+Kubernetes continuously monitors the health of running containers. Failed pods are restarted
+automatically, unresponsive containers are replaced, and workloads are rescheduled to healthy
+nodes when necessary. These built-in capabilities provide the system with high availability and
+resilience.
+
+17.8 Scalability
+Although most services run with a single replica today, Kubernetes allows the platform to scale
+horizontally with minimal configuration changes. Replica counts can be increased manually or
+managed automatically using Horizontal Pod Autoscaling (HPA), with traffic load-balanced
+across all available pods.
+
+17.9 Production Readiness
+Deploying the entire MovieTime application on Kubernetes results in a cloud-native architecture
+that supports resilience, portability, and consistent behavior across environments. It also enables
+easy migration to managed Kubernetes offerings such as EKS, AKS, or GKE, making the platform
+future-proof and scalable.
+
+47
+
+18 Ingress and External Access
+Ingress provides the external entry point to the MovieTime platform, enabling users outside the
+Kubernetes cluster to access the application through a single, well-defined domain. Instead of
+exposing each microservice individually, the Ingress layer centralizes routing, simplifies network
+management, and improves security by keeping core backend services internal.
+
+18.1 Ingress Controller
+The platform uses the NGINX Ingress Controller, which observes Kubernetes Ingress resources
+and dynamically configures routing rules. It is responsible for:
+• Forwarding incoming HTTP traffic to internal services
+• Managing hostname and path-based routing
+• Acting as the secure gateway between clients and the cluster
+
+18.2 Hostname-Based Routing
+External access to the system is provided using the hostname:
+movieapp.local
+All client requests arrive at this domain and are forwarded internally by the Ingress controller.
+The platform uses simple, organized routing rules.
+
+18.3 Path-Based Routing
+Ingress maps URL paths to internal services:
+• / — Frontend UI
+• /auth, /movies, /bookings, /payment — API Gateway routes
+Because all backend microservices are accessed via the API Gateway, Ingress only needs to expose
+the frontend and gateway externally.
+
+Ingress Routing Diagram
+External Client
+NGINX Ingress Controller
+
+/
+
+/auth, /movies, /bookings, /payment
+API Gateway
+
+Frontend Service
+
+Figure 36: Ingress-Based External Routing
+
+48
+
+18.4 Cluster State Screenshot
+The following figure shows all running pods in the movie-app namespace, including frontend,
+backend services, databases, Redis, RabbitMQ, and supporting components:
+
+Figure 37: All running pods in the movie-app namespace
+18.5 Security and Isolation
+Ingress enhances the security posture of the system:
+• Only the frontend and API Gateway are exposed externally.
+• Internal microservices (User, Movie, Booking, Payment, Notification), Redis, RabbitMQ,
+and PostgreSQL remain private.
+• Provides a single point to enforce TLS/HTTPS, rate limiting, and authentication.
+
+18.6 Scalability and Load Balancing
+NGINX automatically distributes traffic across multiple replicas of services such as:
+• Frontend
+• API Gateway
+If pods restart or new replicas are scaled up, traffic is routed dynamically without disruption.
+
+18.7 Operational Benefits
+Using Ingress provides:
+• Centralized and predictable routing configuration
+
+49
+
+• Easier domain and SSL certificate management
+• Reduced exposure of internal services
+• Better scalability and seamless rolling updates
+Ingress therefore plays a crucial role in making the MovieTime platform accessible, secure, and
+scalable.
+
+50
+
+19 ELK Stack for Centralized Logging
+The MovieTime platform uses the ELK stack—Elasticsearch, Logstash, and Kibana—to
+enable centralized logging and observability across all microservices. Since the system runs inside
+Kubernetes and involves many distributed components, consolidating logs into a single platform
+is essential for debugging, monitoring, and long-term analysis. The ELK stack is deployed inside
+a dedicated namespace, elk, ensuring clear separation from application workloads.
+
+Figure 38: ELK logs
+19.1 Purpose of Centralized Logging
+In microservices architectures, logs are distributed across multiple containers and nodes. Containers may restart or move across nodes, making direct log inspection unreliable. Centralized
+logging solves this by collecting, storing, and visualizing logs in one unified location, enabling
+consistent access to historical and real-time log data.
+
+19.2 Elasticsearch
+Elasticsearch serves as the storage and indexing engine for all application logs. Deployed as a
+StatefulSet, it ensures durable storage and high-performance querying. Logs are indexed using
+a daily pattern such as:
+movie-logs-YYYY.MM.DD
+This structure supports efficient time-based searches and trend analysis.
+
+19.3 Logstash
+Logstash functions as the processing pipeline between log sources and Elasticsearch. It receives
+logs from Filebeat, applies parsing and filtering rules, and forwards structured log entries for
+
+51
+
+indexing. This transformation layer ensures that logs follow a consistent schema and remain easy
+to analyze.
+
+19.4 Filebeat
+Filebeat runs as a DaemonSet, allowing one instance to execute on every Kubernetes node. It
+reads container log files directly from the host filesystem, adds Docker metadata (container name,
+image, and labels), and forwards the enriched logs to Logstash. By filtering out ELK component
+logs, it prevents recursive log ingestion.
+
+19.5 Kibana
+Kibana provides visualization and analytics capability on top of Elasticsearch. Through its web
+interface, developers and administrators can search logs, build dashboards, monitor live system
+behavior, and analyze errors or performance issues. It is exposed via a NodePort service during
+development for easy access.
+
+Figure 39: Dashboard
+Centralized Log Flow Diagram
+19.6 Structured JSON Logging
+All backend microservices use structured JSON logging through Logback. Each log entry includes
+key fields such as timestamp, log level, logger name, thread name, message, service name,
+and environment. This consistent structure improves filtering accuracy and allows meaningful
+dashboards to be built quickly.
+
+19.7 Operational Benefits
+The ELK stack brings significant operational value by providing end-to-end visibility into
+application behavior. It accelerates debugging, supports root-cause analysis, enables real-time
+
+52
+
+Application Containers
+Filebeat (DaemonSet)
+Logstash
+Elasticsearch
+Kibana Dashboard
+
+Figure 40: Centralized Log Flow in the ELK Stack
+monitoring, and offers long-term audit capabilities. By aggregating logs across all services, it
+dramatically simplifies observability.
+
+19.8 Production Readiness
+The integrated ELK deployment delivers container-aware logging, node-level aggregation, and
+scalable storage. These characteristics make the observability layer suitable for production
+environments where reliability, traceability, and performance monitoring are essential.
+
+53
+
+20 Testing Strategy
+The MovieTime platform uses a layered testing strategy to ensure correctness and reliability
+across all microservices. Each test type is designed to validate a specific aspect of the system
+with minimal execution time and strict isolation from external infrastructure.
+
+20.1 Unit Testing
+Unit tests verify that core business logic behaves correctly and that service components function
+independently. They use JUnit, Spring Boot Test, and Mockito to mock external dependencies
+such as RabbitMQ or SMTP servers.
+
+20.2 Profile-Based Testing
+A dedicated test profile disables Eureka, messaging, SMTP, and external REST calls, ensuring
+that the tests run quickly and consistently. In-memory H2 databases replace PostgreSQL to
+avoid external dependencies.
+
+20.3 Integration Testing
+Integration tests validate interactions between controllers, services, and repositories within a
+microservice. Spring Boot automatically loads a test application context to simulate realistic
+service behavior without deploying the system.
+
+20.4 Message Queue Testing
+Messaging logic is tested using mocked RabbitMQ components to verify event publishing, consumption, and serialization. This ensures correctness in the Booking, Payment, and Notification
+workflows without requiring a live message broker.
+
+20.5 Security Testing
+Authentication and authorization logic is tested by validating JWT generation, invalid credentials,
+and role-based restrictions. These tests confirm that protected endpoints reject unauthorized
+requests.
+
+20.6 CI-Based Automated Testing
+Jenkins runs all tests automatically during the CI pipeline and blocks deployments if any
+failures occur. This guarantees that only stable, verified code proceeds to containerization and
+deployment.
+
+20.7 Resilience of the Testing Approach
+The strategy ensures that each microservice remains fully testable even if infrastructure components are offline. This isolation increases confidence in application correctness and supports
+rapid development cycles.
+
+54
+
+21 Performance Considerations
+The MovieTime platform is designed to remain responsive during real-time operations such as
+browsing movies, checking seat availability, booking tickets, and processing payments. Performance is achieved through a combination of microservices-based scalability and infrastructure-level
+optimizations.
+
+21.1 Microservices-Based Scalability
+Each microservice runs independently, allowing the platform to scale high-load components—especially
+the Booking and Payment services—without affecting others. This isolation minimizes bottlenecks
+and ensures predictable response times under varying traffic levels.
+
+21.2 Database Performance
+Every core domain service uses its own PostgreSQL database, reducing contention and allowing independent tuning. Indexed tables, ACID transactions, and StatefulSet-backed storage
+contribute to fast and stable database operations.
+
+21.3 Redis Caching
+Redis accelerates performance by caching frequently accessed data such as seat availability. Its
+impact includes:
+• Lower read load on PostgreSQL
+• Faster responses for repeated queries
+• Immediate access to time-sensitive seat-locking data
+
+21.4 Asynchronous Processing with RabbitMQ
+RabbitMQ offloads slow or non-critical tasks to asynchronous queues. This ensures that userfacing APIs remain quick even when operations such as payment confirmation or email delivery
+take longer to complete.
+
+21.5 API Gateway Efficiency
+The API Gateway centralizes request routing and authentication, reducing network overhead.
+Eureka-based dynamic service discovery enables efficient routing even as services scale or restart.
+
+21.6 Container Resource Management
+Kubernetes CPU and memory limits prevent any single service from over-consuming resources.
+This leads to:
+• Stable performance during load spikes
+• Predictable pod behavior across deployments
+
+55
+
+21.7 Horizontal Scalability
+Kubernetes replicas allow services to scale horizontally. Load is automatically balanced across
+pods, increasing throughput and improving resilience during peak demand.
+
+21.8 Logging and Monitoring Impact
+The ELK stack processes logs asynchronously through Filebeat and Logstash, ensuring application
+threads are not blocked by logging operations. Elasticsearch indexing happens independently
+from service execution.
+
+21.9 Overall Performance Characteristics
+By using distributed microservices, Redis caching, asynchronous messaging, independent databases,
+and controlled resource allocation, the MovieTime platform delivers strong responsiveness and
+maintains stability under real-world workloads.
+
+22 Deployment Workflow
+Developer
+
+Jenkins CI
+
+Maven Build
+
+Docker Image
+
+Push Image to
+
+Pushes Code to GitHub
+
+Triggers Pipeline
+
+Generates JAR
+
+Build & Tag
+
+Container Registry
+
+Unit & Integration Tests
+
+Ingress Controller
+
+Rolling Updates
+
+Kubernetes Deployment
+
+Kibana Monitoring
+
+(JUnit, Mockito, H2)
+
+Exposes App
+
+Zero Downtime
+
+kubectl set image
+
+Deployment Verification
+
+Filebeat → Logstash → Elasticsearch
+Real-Time Log Aggregation
+
+Figure 41: End-to-End Deployment Workflow for the MovieTime Platform
+
+23 Why Ansible Is Not Required
+Configuration management tools such as Ansible are commonly used for provisioning servers, automating deployments, and maintaining system configurations across remote machines. However,
+in this project, Kubernetes already provides all the orchestration, automation, and infrastructure
+management capabilities required by the backend microservices.
+Since the entire platform runs inside a Kubernetes cluster, many responsibilities traditionally
+handled by Ansible are fully replaced by Kubernetes features such as:
+• Declarative infrastructure management using YAML manifests
+• Automated container deployment and rollout strategies
+• Built-in service discovery and networking
+• Scaling through replicas and horizontal pod autoscaling
+• Secret and configuration management through ConfigMaps and Secrets
+Additionally, Minikube is used as a local simulation of a remote cluster. Introducing Ansible
+would create an unnecessary additional layer, akin to running a virtual machine inside another
+virtual machine. It would increase operational complexity without offering meaningful advantages.
+
+56
+
+Kubernetes already fulfills all deployment, orchestration, and configuration roles required for this
+system, making Ansible redundant in this architecture.
+
+57
+
+

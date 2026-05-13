@@ -24,37 +24,43 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Core Functionalities and Evaluation Mapping}{4}{subsection.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4}High-Level Request Flow}{5}{subsection.1.4}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces High-Level Request and Processing Flow}}{5}{figure.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Repository Structure and Codebase Breakdown}{6}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Code File Descriptions}{7}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Application and Machine Learning Layer}{8}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Dataset and Feature Engineering}{8}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Offline Machine Learning Training Pipeline}{8}{subsection.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Offline Machine Learning Training Pipeline}}{8}{figure.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Random Forest Model Configuration}{8}{subsection.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}FastAPI Implementation}{9}{subsection.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Docker Containerization}{9}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Technology Stack}{6}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Repository Structure and Codebase Breakdown}{7}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Code File Descriptions}{7}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Application and Machine Learning Layer}{8}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Dataset and Feature Engineering}{8}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Offline Machine Learning Training Pipeline}{9}{subsection.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Offline Machine Learning Training Pipeline}}{9}{figure.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Random Forest Model Configuration}{9}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}FastAPI Implementation}{9}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Docker Containerization}{10}{section.5}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces FraudGuard Docker Images pushed to DockerHub}}{10}{figure.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Additional view of DockerHub repository showing automated tags}}{10}{figure.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Ansible Configuration Management}{10}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Jenkins and CI/CD Automation}{11}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}GitHub Webhook Triggers}{11}{subsection.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Detailed Pipeline Stages}{11}{subsection.6.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Jenkins CI/CD Pipeline Execution Flow}}{12}{figure.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Jenkins Dashboard demonstrating successful pipeline execution across all stages}}{12}{figure.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7}Kubernetes Orchestration and Live Patching}{12}{section.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Live Patching and Rolling Updates}{12}{subsection.7.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Kubernetes Cluster Status showing running Pods and Services}}{13}{figure.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Horizontal Pod Autoscaler (HPA)}{13}{subsection.7.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces HPA Dynamic Scaling Mechanism}}{13}{figure.10}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Terminal output demonstrating the HPA successfully scaling replicas under load}}{14}{figure.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8}Security and Vault Integration}{14}{section.8}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Vault Status and Secret Retrieval Process}}{15}{figure.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {9}ELK Stack for Centralized Logging}{15}{section.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Filebeat Sidecar Architecture}{15}{subsection.9.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces ELK Centralized Logging Architecture}}{15}{figure.13}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Kibana Data View Configuration}}{16}{figure.14}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Kibana Discover Tab showing live, structured log streams}}{16}{figure.15}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Detailed Application Log showing an incoming fraud prediction request}}{17}{figure.16}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Log entry highlighting the Machine Learning model's prediction result and confidence score}}{17}{figure.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {10}Conclusion}{17}{section.10}\protected@file@percent }
-\gdef \@abspage@last{17}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Additional view of DockerHub repository showing automated tags}}{11}{figure.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Ansible Configuration Management}{11}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Jenkins and CI/CD Automation}{11}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}GitHub Webhook Triggers}{11}{subsection.7.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces GitHub Webhook configuration demonstrating successful payload deliveries to the Ngrok tunnel}}{12}{figure.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Detailed Pipeline Stages}{12}{subsection.7.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Jenkins CI/CD Pipeline Execution Flow}}{13}{figure.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Jenkins Dashboard demonstrating successful pipeline execution across all stages}}{13}{figure.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Newman Automated Smoke Tests executing 14 passing assertions against the live Kubernetes API}}{14}{figure.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Kubernetes Orchestration and Live Patching}{14}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Live Patching and Rolling Updates}{14}{subsection.8.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Kubernetes Cluster Status showing running Pods and Services}}{15}{figure.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Horizontal Pod Autoscaler (HPA)}{15}{subsection.8.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces HPA Dynamic Scaling Mechanism}}{15}{figure.12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Terminal output demonstrating the HPA successfully scaling replicas under load}}{16}{figure.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Security and Vault Integration}{16}{section.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Vault Status and Secret Retrieval Process}}{17}{figure.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Threat Model and Security Controls}{17}{subsection.9.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces System Threat Model and Mitigation Strategies}}{17}{table.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}ELK Stack for Centralized Logging}{17}{section.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Filebeat Sidecar Architecture}{18}{subsection.10.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces ELK Centralized Logging Architecture}}{18}{figure.15}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Kibana Data View Configuration}}{18}{figure.16}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Kibana Discover Tab showing live, structured log streams}}{19}{figure.17}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Detailed Application Log showing an incoming fraud prediction request}}{19}{figure.18}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Log entry highlighting the Machine Learning model's prediction result and confidence score}}{20}{figure.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}Risks and Limitations}{20}{section.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {12}Conclusion}{20}{section.12}\protected@file@percent }
+\gdef \@abspage@last{20}

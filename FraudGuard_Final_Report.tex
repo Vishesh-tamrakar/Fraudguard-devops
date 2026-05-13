@@ -133,6 +133,20 @@ The high-level request processing flow involves several discrete components:
     \item \textbf{ELK Stack (Kibana):} The centralized logging infrastructure that ingests, indexes, and visualizes the logs, enabling operators to search for transaction IDs and monitor system health.
 \end{itemize}
 
+\section{Technology Stack}
+The FraudGuard platform leverages a modern, production-ready technology stack. Each tool was deliberately selected to fulfill specific MLOps and DevOps requirements while ensuring scalability, reliability, and security.
+
+\begin{description}
+    \item[\raisebox{-0.3\height}{\includegraphics[width=0.8cm]{Screenshots/logos/FastAPI.png}} \textbf{FastAPI (Python):}] Serves as the core web framework. It provides high-performance, asynchronous REST API endpoints (\texttt{/predict}) and native validation via Pydantic.
+    \item[\raisebox{-0.3\height}{\includegraphics[width=0.8cm]{Screenshots/logos/GitHub.png}} \textbf{GitHub:}] Acts as the central Version Control System (VCS). We utilize GitHub Webhooks to intercept \texttt{git push} events and automatically trigger the Jenkins CI/CD pipeline.
+    \item[\raisebox{-0.3\height}{\includegraphics[width=0.8cm]{Screenshots/logos/Jenkins.png}} \textbf{Jenkins:}] The automation engine orchestrating our CI/CD pipeline. It executes a declarative \texttt{Jenkinsfile} containing 7 discrete stages, completely eliminating manual deployment steps.
+    \item[\raisebox{-0.3\height}{\includegraphics[width=0.8cm]{Screenshots/logos/Ansible.png}} \textbf{Ansible:}] Provides Infrastructure as Code (IaC). Ansible playbooks, structured with modular roles, idempotently provision the host machine and start the Minikube cluster.
+    \item[\raisebox{-0.3\height}{\includegraphics[width=0.8cm]{Screenshots/logos/Docker.jpeg}} \textbf{Docker:}] Containerizes the FastAPI application and the serialized \texttt{model.pkl}. This guarantees environmental consistency from local development through to the Kubernetes deployment.
+    \item[\raisebox{-0.3\height}{\includegraphics[width=0.8cm]{Screenshots/logos/Kubernetes.png}} \textbf{Kubernetes (Minikube):}] The container orchestration platform. It provides high availability, declarative configurations (\texttt{deployment.yaml}), and dynamic scaling via the Horizontal Pod Autoscaler (HPA).
+    \item[\raisebox{-0.3\height}{\includegraphics[width=0.8cm]{Screenshots/logos/Vault.png}} \textbf{HashiCorp Vault:}] Centralized secrets manager. It securely stores Docker Hub credentials, which Jenkins retrieves at runtime via an AppRole, ensuring zero hardcoded secrets.
+    \item[\raisebox{-0.3\height}{\includegraphics[width=0.8cm]{Screenshots/logos/Elasticsearch.png}} \textbf{ELK Stack:}] The centralized observability suite. A Filebeat sidecar streams JSON logs to Logstash, which indexes them in Elasticsearch for visualization in Kibana dashboards.
+\end{description}
+
 \section{Repository Structure and Codebase Breakdown}
 To ensure maintainability and modularity, the FraudGuard project is structured into distinct directories separating application logic, infrastructure code, deployment manifests, and testing suites. Below is a breakdown of the repository structure and the specific function of each critical file.
 
@@ -280,6 +294,12 @@ The Continuous Integration and Continuous Deployment (CI/CD) pipeline automates 
 \subsection{GitHub Webhook Triggers}
 The pipeline is fully automated and event-driven. A webhook is configured in the GitHub repository pointing to the Jenkins instance. Whenever a developer pushes a code commit to the \texttt{main} branch, GitHub immediately fires an HTTP payload to Jenkins, which instantly starts the build pipeline. This ensures the production environment is always in sync with the repository.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Screenshots/Webhook.png}
+    \caption{GitHub Webhook configuration demonstrating successful payload deliveries to the Ngrok tunnel}
+\end{figure}
+
 \subsection{Detailed Pipeline Stages}
 The declarative \texttt{Jenkinsfile} defines the following sequential stages, each executing critical logic:
 \begin{enumerate}
@@ -326,6 +346,12 @@ The declarative \texttt{Jenkinsfile} defines the following sequential stages, ea
     \centering
     \includegraphics[width=\textwidth]{Screenshots/Jenkins.png}
     \caption{Jenkins Dashboard demonstrating successful pipeline execution across all stages}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Screenshots/Postman.png}
+    \caption{Newman Automated Smoke Tests executing 14 passing assertions against the live Kubernetes API}
 \end{figure}
 
 \section{Kubernetes Orchestration and Live Patching}
@@ -379,6 +405,22 @@ System security is strictly enforced by avoiding hardcoded secrets in the codeba
     \includegraphics[width=\textwidth]{Screenshots/Vault.png}
     \caption{Vault Status and Secret Retrieval Process}
 \end{figure}
+
+\subsection{Threat Model and Security Controls}
+In addition to Vault, several security controls are enforced across the infrastructure to mitigate potential vulnerabilities.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{0.3\textwidth}|p{0.65\textwidth}|}
+\hline
+\textbf{Threat Vector} & \textbf{Implemented Security Control} \\ \hline
+Secret Leakage in Git & All sensitive keys are stored in HashiCorp Vault. Jenkins uses an AppRole to fetch them securely at runtime. \\ \hline
+Container Breakouts & Dockerfile creates a non-root user (\texttt{appuser}). The FastAPI process runs without elevated privileges. \\ \hline
+DDoS / Resource Exhaustion & Kubernetes Horizontal Pod Autoscaler (HPA) dynamically provisions pods under high load. \\ \hline
+Unauthorized Cluster Access & Role-Based Access Control (RBAC) in Kubernetes and Vault policies limit token privileges. \\ \hline
+\end{tabular}
+\caption{System Threat Model and Mitigation Strategies}
+\end{table}
 
 \section{ELK Stack for Centralized Logging}
 In a distributed Kubernetes environment, centralized logging is critical for debugging. The ELK Stack provides complete observability into the live patched pods without needing to SSH into nodes.
@@ -436,6 +478,14 @@ The structured JSON logs capture the transaction ID, prediction result (fraudule
     \includegraphics[width=0.9\textwidth]{Screenshots/ELK4.png}
     \caption{Log entry highlighting the Machine Learning model's prediction result and confidence score}
 \end{figure}
+
+\section{Risks and Limitations}
+While the FraudGuard platform is highly robust, there are certain architectural limitations to consider for a true enterprise deployment:
+\begin{itemize}
+    \item \textbf{Model Drift:} The current pipeline packages a statically trained \texttt{model.pkl} into the Docker image. In a production scenario, consumer financial behavior evolves. A continuous training pipeline (CT) with a model registry (e.g., MLflow) would be required to prevent model degradation over time.
+    \item \textbf{Single-Node Minikube:} The application is currently deployed on a local Minikube cluster. While this demonstrates full Kubernetes orchestration, migrating to a managed cloud cluster (EKS/GKE) would provide true multi-node redundancy and geographic fault tolerance.
+    \item \textbf{Ephemeral Storage:} The ELK stack uses standard Kubernetes deployments rather than StatefulSets with persistent cloud volumes. If the Minikube VM shuts down, indexed logs are lost.
+\end{itemize}
 
 \section{Conclusion}
 The FraudGuard platform successfully implements a complete DevOps and MLOps lifecycle. By integrating Docker, Kubernetes, Jenkins, Ansible, HashiCorp Vault, and the ELK stack, the system achieves full automation, robust security, dynamic scalability, and deep observability. It fulfills 100\% of the mandatory requirements and incorporates all advanced features (Vault, Ansible Roles, HPA, and Live Patching) outlined in the SPE Final Project Guidelines, serving as an exemplary blueprint for deploying machine learning models in a production-ready cloud-native environment.

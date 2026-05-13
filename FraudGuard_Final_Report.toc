@@ -3,22 +3,25 @@
 \contentsline {subsection}{\numberline {1.2}User Roles}{4}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.3}Core Functionalities and Evaluation Mapping}{4}{subsection.1.3}%
 \contentsline {subsection}{\numberline {1.4}High-Level Request Flow}{5}{subsection.1.4}%
-\contentsline {section}{\numberline {2}Repository Structure and Codebase Breakdown}{6}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Code File Descriptions}{7}{subsection.2.1}%
-\contentsline {section}{\numberline {3}Application and Machine Learning Layer}{8}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Dataset and Feature Engineering}{8}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Offline Machine Learning Training Pipeline}{8}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Random Forest Model Configuration}{8}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}FastAPI Implementation}{9}{subsection.3.4}%
-\contentsline {section}{\numberline {4}Docker Containerization}{9}{section.4}%
-\contentsline {section}{\numberline {5}Ansible Configuration Management}{10}{section.5}%
-\contentsline {section}{\numberline {6}Jenkins and CI/CD Automation}{11}{section.6}%
-\contentsline {subsection}{\numberline {6.1}GitHub Webhook Triggers}{11}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Detailed Pipeline Stages}{11}{subsection.6.2}%
-\contentsline {section}{\numberline {7}Kubernetes Orchestration and Live Patching}{12}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Live Patching and Rolling Updates}{12}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Horizontal Pod Autoscaler (HPA)}{13}{subsection.7.2}%
-\contentsline {section}{\numberline {8}Security and Vault Integration}{14}{section.8}%
-\contentsline {section}{\numberline {9}ELK Stack for Centralized Logging}{15}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Filebeat Sidecar Architecture}{15}{subsection.9.1}%
-\contentsline {section}{\numberline {10}Conclusion}{17}{section.10}%
+\contentsline {section}{\numberline {2}Technology Stack}{6}{section.2}%
+\contentsline {section}{\numberline {3}Repository Structure and Codebase Breakdown}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Code File Descriptions}{7}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Application and Machine Learning Layer}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Dataset and Feature Engineering}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Offline Machine Learning Training Pipeline}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Random Forest Model Configuration}{9}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}FastAPI Implementation}{9}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Docker Containerization}{10}{section.5}%
+\contentsline {section}{\numberline {6}Ansible Configuration Management}{11}{section.6}%
+\contentsline {section}{\numberline {7}Jenkins and CI/CD Automation}{11}{section.7}%
+\contentsline {subsection}{\numberline {7.1}GitHub Webhook Triggers}{11}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Detailed Pipeline Stages}{12}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Kubernetes Orchestration and Live Patching}{14}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Live Patching and Rolling Updates}{14}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Horizontal Pod Autoscaler (HPA)}{15}{subsection.8.2}%
+\contentsline {section}{\numberline {9}Security and Vault Integration}{16}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Threat Model and Security Controls}{17}{subsection.9.1}%
+\contentsline {section}{\numberline {10}ELK Stack for Centralized Logging}{17}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Filebeat Sidecar Architecture}{18}{subsection.10.1}%
+\contentsline {section}{\numberline {11}Risks and Limitations}{20}{section.11}%
+\contentsline {section}{\numberline {12}Conclusion}{20}{section.12}%

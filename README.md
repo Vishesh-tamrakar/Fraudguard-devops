@@ -2,7 +2,7 @@
 
 > **Fraud Detection Microservice with Complete CI/CD Pipeline**
 > 
-> CSE 816 Final Project — Intelligent Systems Engineering, San José State University
+> CSE 816 - Software Production Engineering at International Institute of Information Technology, Bangalore.
 > 
 > Authors: MT2025064 Kautilya Singh & MS2025021 Vishesh Tamrakar
 
@@ -19,21 +19,7 @@
 - **Log Stack**: Complete ELK stack (Elasticsearch, Logstash, Kibana) for log aggregation
 - **Testing**: 10 unit tests (100% passing, 89% code coverage), 4 API smoke tests
 
----
 
-## 🎯 Project Status
-
-| Component | Status | Details |
-|-----------|--------|---------|
-| **Application Code** | ✅ 100% | FastAPI, tests, logging all complete |
-| **Model Training** | ✅ 100% | Real model trained on IEEE-CIS dataset |
-| **Infrastructure Code** | ✅ 100% | Ansible + Kubernetes manifests ready |
-| **Jenkins Pipeline** | ✅ 100% | 7/7 stages configured |
-| **Documentation** | ✅ 100% | Complete setup and deployment guides |
-
-**Ready for deployment!**
-
----
 
 ## 📚 Table of Contents
 
@@ -311,29 +297,4 @@ minikube ssh "sudo sysctl -w vm.max_map_count=262144"
 - **Implementation Plan**: [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md)
 - **API Docs**: http://localhost:8000/docs (Swagger UI)
 
----
 
-## Deployment Verification
-
-- [ ] All tests passing (10/10, 89%+ coverage)
-- [ ] Docker image builds successfully
-- [ ] Minikube cluster running
-- [ ] Application pods running and healthy
-- [ ] Service accessible (health endpoint 200)
-- [ ] ELK stack deployed and Kibana accessible
-- [ ] Logs appearing in Kibana
-- [ ] Jenkins pipeline complete
-- [ ] Postman tests passing
-
----
-
-## Next Steps
-
-1. Run: `ansible-playbook -i ansible/inventory/hosts.ini ansible/site.yml -v`
-2. Deploy: `kubectl apply -f k8s/`
-3. Monitor: `kubectl logs -f deployment/fraudguard-app`
-4. Test: `newman run tests/postman/FraudGuard.postman_collection.json`
-
----
-
-**Status**: ✅ Production Ready | **Version**: 1.0.0 | **Updated**: 2026-05-02
