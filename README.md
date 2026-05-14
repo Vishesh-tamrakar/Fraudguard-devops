@@ -12,7 +12,7 @@
 
 **FraudGuard** is a production-grade fraud detection platform featuring:
 
-- **ML Model**: RandomForest classifier (ROC-AUC: 0.9520, exceeds 0.85 SRS requirement by 12%)
+- **ML Model**: RandomForest classifier (ROC-AUC: 0.9520)
 - **API**: FastAPI microservice with structured JSON logging and Prometheus metrics
 - **Infrastructure**: Kubernetes orchestration with Minikube (local) and cloud-ready manifests
 - **CI/CD**: Jenkins declarative pipeline (7 stages: checkout → test → build → deploy → validate)
@@ -81,8 +81,8 @@ sudo usermod -aG docker $USER && newgrp docker
 ### 1. Clone & Setup Virtual Environment
 
 ```bash
-git clone https://github.com/your-org/fraudguard-devops-main.git
-cd fraudguard-devops-main
+git clone https://github.com/Vishesh-tamrakar/Fraudguard-devops.git
+cd Fraudguard-devops
 
 python3 -m venv .venv
 source .venv/bin/activate

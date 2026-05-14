@@ -1,4 +1,5 @@
 __pycache__/
+app/logs/
 .env
 *.pyc
 venv/
@@ -26,3 +27,6 @@ FinalProjectGuidelinesAndEvaluationCriteria.pdf
 IMPLEMENTATION_ROADMAP.md
 SRS_VERIFICATION_REPORT.md
 ngrok.log
+vault.log
+.venv/
+.venv311/
