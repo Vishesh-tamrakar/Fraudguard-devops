@@ -7,7 +7,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fraudguard-app
-  namespace: default
+  namespace: fraudguard
   labels:
     app: fraudguard
     component: api

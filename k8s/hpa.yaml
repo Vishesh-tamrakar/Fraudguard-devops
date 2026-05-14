@@ -7,7 +7,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: fraudguard-app-hpa
-  namespace: default
+  namespace: fraudguard
   labels:
     app: fraudguard
     component: scaling

@@ -8,7 +8,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fraudguard-app
-  namespace: default
+  namespace: fraudguard
   labels:
     app: fraudguard
     component: api
@@ -53,15 +53,6 @@ spec:
       # Service account
       serviceAccountName: default
       
-      # Init containers (run before app containers)
-      initContainers:
-        - name: wait-for-elk
-          image: busybox:1.35
-          command: 
-            - 'sh'
-            - '-c'
-            - 'until nc -z elasticsearch.elk.svc.cluster.local 9200 2>/dev/null; do echo waiting for elasticsearch; sleep 2; done'
-          imagePullPolicy: IfNotPresent
       
       # Application containers
       containers:

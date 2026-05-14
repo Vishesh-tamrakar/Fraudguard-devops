@@ -130,15 +130,15 @@ pipeline {
                     kubectl create namespace fraudguard || true
                     
                     # Apply manifests
-                    kubectl apply -f k8s/deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-                    kubectl apply -f k8s/hpa.yaml
+                    kubectl apply -f k8s/deployment.yaml -n fraudguard
+                    kubectl apply -f k8s/service.yaml -n fraudguard
+                    kubectl apply -f k8s/hpa.yaml -n fraudguard
                     
                     # Update image to the one we just built
-                    kubectl set image deployment/fraudguard-app fraudguard-api=28vishesh/fraudguard:${GIT_COMMIT_SHORT}
+                    kubectl set image deployment/fraudguard-app fraudguard-api=28vishesh/fraudguard:${GIT_COMMIT_SHORT} -n fraudguard
                     
                     echo "Waiting for rollout..."
-                    kubectl rollout status deployment/fraudguard-app --timeout=60s
+                    kubectl rollout status deployment/fraudguard-app --timeout=60s -n fraudguard
                     
                     echo "✓ Kubernetes Deploy completed successfully"
                 '''
@@ -159,7 +159,7 @@ pipeline {
                         # but we use the NodePort directly here.
                         
                         # Get the NodePort and the Node IP
-                        NODEPORT=$(kubectl get service fraudguard-app -o jsonpath='{.spec.ports[0].nodePort}')
+                        NODEPORT=$(kubectl get service fraudguard-app -n fraudguard -o jsonpath='{.spec.ports[0].nodePort}')
                         NODEIP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
                         
                         echo "Targeting API at: http://$NODEIP:$NODEPORT"
