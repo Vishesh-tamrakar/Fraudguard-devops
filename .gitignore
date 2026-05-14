@@ -16,7 +16,7 @@ data/*.csv
 SPE_Final_Project.pdf
 FraudGuard_SRS.pdf
 srs.txt
-# FraudGuard_Final_Report.tex (uncommented to allow tracking)
+FraudGuard_Final_Report.tex
 FraudGuard_Final_Report.aux
 FraudGuard_Final_Report.log
 FraudGuard_Final_Report.out
@@ -25,7 +25,7 @@ FraudGuard_Final_Report.toc
 # Additional Files to Ignore
 FinalProjectGuidelinesAndEvaluationCriteria.pdf
 IMPLEMENTATION_ROADMAP.md
-# SRS_VERIFICATION_REPORT.md (uncommented to allow tracking)
+SRS_VERIFICATION_REPORT.md
 ngrok.log
 vault.log
 .venv/
